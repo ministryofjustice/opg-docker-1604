@@ -3,6 +3,8 @@
 as abstract as possible nginx setup. there is a default catchall which will return status 
 444 if no matching host header is found.
 
+By default the server only listens on port 443 (ssl), however one can open port 80 by setting the `OPG_NGINX_SSL_FORCE_REDIRECT` varialbe to `true`
+
 env vars
 --------
 - OPG_NGINX_SSL_FORCE_REDIRECT - if set then container will redirect all `http` traffic to `https`
