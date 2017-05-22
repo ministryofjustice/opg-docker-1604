@@ -1,4 +1,4 @@
-CORE_CONTAINERS:= base #nginx0x644 php-fpm0x644 jre-80x644
+CORE_CONTAINERS:= opg-base-1604 #nginx0x644 php-fpm0x644 jre-80x644
 #CHILD_CONTAINERS:= elasticsearch50x644 elasticsearch-shared-data0x644 kibana0x644 jenkins-slave0x644 jenkins20x644 rabbitmq0x644 wkhtmlpdf0x644 mongodb0x644
 
 CLEAN_CONTAINERS := $(CORE_CONTAINERS) $(CHILD_CONTAINERS)

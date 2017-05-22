@@ -1,4 +1,4 @@
-opguk/base0x644
+opg-base-1604
 ==========
 Base docker image that:
 
@@ -44,7 +44,7 @@ All inheriting containers should add their respective beaver config file to `/et
 Versions
 --------
 Versions are in reduced semver (because docker don't support build segment):
-i.e: `opg/base0x644:0.0.2`
+i.e: `opg-base-1604:0.0.2`
 
 If `OPG_DOCKER_TAG` env variable will be passed to the container then it will generate `/app/META` file with `{'rev': '$OPG_DOCKER_TAG'}`
 
