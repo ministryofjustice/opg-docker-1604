@@ -1,5 +1,9 @@
 [beaver]
+{{ if exists "/opg/monitoring/hostname" }}
 redis_url: redis://{{ getv "/opg/monitoring/hostname" }}:6379/0
+{{ else }}
+redis_url: redis://monitoring:6379/0
+{{ end }}
 redis_namespace: logstash
 logstash_version: 1
 queue_timeout: 3600
