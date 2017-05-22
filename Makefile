@@ -67,7 +67,6 @@ showinfo:
 	@echo Current Tag: $(currenttag)
 	@echo Core Container List: $(CORE_CONTAINERS)
 	@echo Container List: $(CHILD_CONTAINERS)
-	@echo 16.04 Container List: $(LTS_CONTAINERS)
 	@echo Clean Container List: $(CLEAN_CONTAINERS)
 ifeq ($(tagrepo),yes)
 	@echo Tagging repo: $(tagrepo)
