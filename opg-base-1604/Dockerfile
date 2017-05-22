@@ -79,3 +79,4 @@ ADD docker/scripts /scripts/base
 RUN chmod -R a+x /scripts/base
 
 ENV OPG_SERVICE base
+ENV OPG_MONITORING_HOSTNAME monitoring
