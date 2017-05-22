@@ -28,8 +28,8 @@ Instead of relying on RUN directives to do so.
 
 How to run application as specific user? Shall I use `su foo -c "ls"`?
 
-It's recommended to use setuser.
-i.e. `exec /sbin/setuser memcache /usr/bin/memcached`
+It's recommended to use gosu.
+i.e. `gosu memcache /usr/bin/memcached`
 
 
 prerequisites
@@ -37,8 +37,3 @@ prerequisites
 - docker
 - make
 - semvertag (https://github.com/ministryofjustice/semvertag)
-
-
-TODO
-----
-pick something to generate config files
