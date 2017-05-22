@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mkdir -p /var/log/nginx
+
+chown app:app /var/log/app
+
+exec /usr/sbin/nginx
