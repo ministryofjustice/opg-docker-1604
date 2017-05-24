@@ -23,4 +23,4 @@ VOLUME /data/mongodb
 
 EXPOSE 27017
 
-ENV OPG_SERVICE "mongodb"
+ENV OPG_SERVICE mongodb
