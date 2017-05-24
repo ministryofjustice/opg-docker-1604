@@ -1,6 +1,6 @@
 CORE_CONTAINERS:= opg-base-1604 opg-nginx-1604 opg-php-fpm-1604 opg-jre8-1604
 ES_CONTAINERS:= opg-elasticsearch5-1604 opg-elasticsearch-shared-data-1604 opg-kibana-1604
-CHILD_CONTAINERS:= opg-nginx-router-1604 opg-rabbitmq-1604 # wkhtmlpdf0x644 mongodb0x644
+CHILD_CONTAINERS:= opg-nginx-router-1604 opg-rabbitmq-1604 opg-mongodb-1604# wkhtmlpdf0x644
 JENKINS_CONTAINERS:= opg-jenkins2-1604 opg-jenkins-slave-1604
 
 CLEAN_CONTAINERS := $(CORE_CONTAINERS) $(ES_CONTAINERS) $(CHILD_CONTAINERS) $(JENKINS_CONTAINERS)
