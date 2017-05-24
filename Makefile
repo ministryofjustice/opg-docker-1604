@@ -1,11 +1,12 @@
 CORE_CONTAINERS:= opg-base-1604 opg-nginx-1604 opg-php-fpm-1604 opg-jre8-1604
 ES_CONTAINERS:= opg-elasticsearch5-1604 opg-elasticsearch-shared-data-1604 opg-kibana-1604
-CHILD_CONTAINERS:= opg-nginx-router-1604 opg-rabbitmq-1604 opg-mongodb-1604# wkhtmlpdf0x644
+WEB_CONTAINERS:= opg-nginx-router-1604 opg-wkhtmlpdf-1604
+DATA_CONTAINERS:= opg-rabbitmq-1604 opg-mongodb-1604
 JENKINS_CONTAINERS:= opg-jenkins2-1604 opg-jenkins-slave-1604
 
-CLEAN_CONTAINERS := $(CORE_CONTAINERS) $(ES_CONTAINERS) $(CHILD_CONTAINERS) $(JENKINS_CONTAINERS)
+ALL_CONTAINERS := $(CORE_CONTAINERS) $(ES_CONTAINERS) $(CHILD_CONTAINERS) $(JENKINS_CONTAINERS) $(WEB_CONTAINERS)
 
-.PHONY: build push pull showinfo test $(CORE_CONTAINERS) $(CHILD_CONTAINERS) $(ES_CONTAINERS) $(JENKINS_CONTAINERS) clean
+.PHONY: build push pull showinfo $(CORE_CONTAINERS) $(DATA_CONTAINERS) $(ES_CONTAINERS) $(JENKINS_CONTAINERS) $(WEB_CONTAINERS) clean
 
 tagrepo = no
 ifneq ($(stage),)
@@ -35,16 +36,17 @@ endif
 registryUrl = registry.service.opg.digital
 
 buildcore: $(CORE_CONTAINERS)
-buildchild: $(CHILD_CONTAINERS)
+builddata: $(DATA_CONTAINERS)
 buildes: $(ES_CONTAINERS)
 buildjenkins: $(JENKINS_CONTAINERS)
-build: buildcore buildchild buildes buildjenkins
+buildweb: $(WEB_CONTAINERS)
+build: buildcore builddata buildes buildjenkins buildweb
 
 
 $(CORE_CONTAINERS):
 	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
 
-$(CHILD_CONTAINERS):
+$(DATA_CONTAINERS):
 	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
 
 $(ES_CONTAINERS):
@@ -53,8 +55,11 @@ $(ES_CONTAINERS):
 $(JENKINS_CONTAINERS):
 	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
 
+$(WEB_CONTAINERS):
+	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
+
 push:
-	for i in $(CORE_CONTAINERS) $(CHILD_CONTAINERS) $(LTS_CONTAINERS); do \
+	for i in $(ALL_CONTAINERS); do \
 			[ "$(stagearg)x" = "x" ] && docker push $(registryUrl)/$$i ; \
 			docker push $(registryUrl)/$$i:$(newtag) ; \
 	done
@@ -66,7 +71,7 @@ else
 endif
 
 pull:
-	for i in $(CORE_CONTAINERS) $(CHILD_CONTAINERS) $(LTS_CONTAINERS); do \
+	for i in $(ALL_CONTAINERS); do \
 			docker pull $(registryUrl)/$$i ; \
 	done
 
@@ -83,7 +88,7 @@ ifeq ($(tagrepo),yes)
 endif
 
 clean:
-	for i in $(CLEAN_CONTAINERS); do \
+	for i in $(ALL_CONTAINERS); do \
 		docker rmi $(registryUrl)/$$i:$(currenttag) || true ; \
 		docker rmi $(registryUrl)/$$i || true ; \
 	done
