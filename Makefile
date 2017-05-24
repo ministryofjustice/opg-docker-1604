@@ -1,10 +1,11 @@
 CORE_CONTAINERS:= opg-base-1604 opg-nginx-1604 opg-php-fpm-1604 opg-jre8-1604
 ES_CONTAINERS:= opg-elasticsearch5-1604 opg-elasticsearch-shared-data-1604 opg-kibana-1604
-CHILD_CONTAINERS:= opg-nginx-router-1604 #jenkins-slave0x644 jenkins20x644 rabbitmq0x644 wkhtmlpdf0x644 mongodb0x644
+CHILD_CONTAINERS:= opg-nginx-router-1604 #rabbitmq0x644 wkhtmlpdf0x644 mongodb0x644
+JENKINS_CONTAINERS:= opg-jenkins2-1604 opg-jenkins-slave-1604
 
-CLEAN_CONTAINERS := $(CORE_CONTAINERS) $(CHILD_CONTAINERS)
+CLEAN_CONTAINERS := $(CORE_CONTAINERS) $(ES_CONTAINERS) $(CHILD_CONTAINERS) $(JENKINS_CONTAINERS)
 
-.PHONY: build push pull showinfo test $(CORE_CONTAINERS) $(CHILD_CONTAINERS) $(ES_CONTAINERS) clean
+.PHONY: build push pull showinfo test $(CORE_CONTAINERS) $(CHILD_CONTAINERS) $(ES_CONTAINERS) $(JENKINS_CONTAINERS) clean
 
 tagrepo = no
 ifneq ($(stage),)
@@ -36,7 +37,8 @@ registryUrl = registry.service.opg.digital
 buildcore: $(CORE_CONTAINERS)
 buildchild: $(CHILD_CONTAINERS)
 buildes: $(ES_CONTAINERS)
-build: buildcore buildchild buildes
+buildjenkins: $(JENKINS_CONTAINERS)
+build: buildcore buildchild buildes buildjenkins
 
 
 $(CORE_CONTAINERS):
@@ -46,6 +48,9 @@ $(CHILD_CONTAINERS):
 	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
 
 $(ES_CONTAINERS):
+	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
+
+$(JENKINS_CONTAINERS):
 	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
 
 push:
