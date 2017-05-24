@@ -22,7 +22,7 @@ RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/dow
   && rm /usr/local/bin/gosu.asc \
   && chmod +x /usr/local/bin/gosu
 
-ARG APT_PACKAGES="dos2unix git python-setuptools wget dnsmasq unzip zip netcat netcat-traditional iproute2 ntp"
+ARG APT_PACKAGES="dos2unix git python-setuptools wget dnsmasq unzip zip netcat netcat-traditional iproute2 ntp ntpdate"
 
 RUN  rm -f /etc/apt/sources.list.d/* && \
      apt update && \
