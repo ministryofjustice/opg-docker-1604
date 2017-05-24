@@ -1,4 +1,4 @@
-FROM registry.service.opg.digital/opguk/jre-80x644
+FROM registry.service.opg.digital/opg-jre8-1604
 
 #Install tools
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
