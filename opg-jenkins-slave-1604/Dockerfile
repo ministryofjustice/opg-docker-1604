@@ -29,7 +29,7 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
     rm -rf /tmp/* /var/tmp/* && rm -rf /var/lib/apt/lists/*
 
 # Install pip requirements
-RUN pip install meta-compose git+https://github.com/ministryofjustice/semvertag.git virtualenv
+RUN pip install git+https://github.com/ministryofjustice/semvertag.git virtualenv
 
 #Fix docker GID to sync with underlying ECS so that the user can access the docker socket
 RUN groupmod -g 497 docker && adduser app docker
