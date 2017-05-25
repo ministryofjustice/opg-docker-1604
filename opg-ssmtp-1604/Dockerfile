@@ -1,7 +1,7 @@
 FROM registry.service.opg.digital/opg-base-1604
 
-RUN  apt update && apt install -y postfix && \
-     apt clean && apt -y autoremove && \
+RUN  apt update && \
+     apt install -y postfix && \
      rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/* && \
      pip install git+https://github.com/ministryofjustice/postfix-stats-collector.git#egg=postfix-stats-collector
 
