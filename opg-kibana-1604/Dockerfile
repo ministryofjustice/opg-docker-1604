@@ -5,14 +5,13 @@ ENV ES_SKIP_SET_KERNEL_PARAMETERS true
 
 # add our user and group first to make sure their IDs get assigned consistently
 RUN groupadd -r kibana && \
-    useradd -r -g kibana kibana && \
-    apt-get update && \
-    apt-get install -y ca-certificates curl && \
-    rm -rf /var/lib/apt/lists/*
+    useradd -r -g kibana kibana
 
 ENV ELASTICSEARCH_REPO_BASE https://artifacts.elastic.co/packages/5.x/apt
 
-RUN wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - && \
+RUN apt-get update && \
+    apt-get install -y ca-certificates curl && \
+    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - && \
     echo "deb $ELASTICSEARCH_REPO_BASE stable main" > /etc/apt/sources.list.d/elasticsearch.list && \
     apt-get update && \
     apt-get install kibana=${KIBANA_VERSION} && \
