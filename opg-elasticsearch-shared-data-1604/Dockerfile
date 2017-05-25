@@ -14,7 +14,7 @@ RUN apk update && \
     cp -rv metricbeat/* /tmp/elasticsearchshareddata/beats && \
     cp -rv filebeat/* /tmp/elasticsearchshareddata/beats && \
     rm -rf /tmp/beats-dashboards-* && \
-    chmod -R 655 /tmp/elasticsearchshareddata
+    chmod -R 755 /tmp/elasticsearchshareddata
 
 VOLUME /tmp/elasticsearchshareddata
 
