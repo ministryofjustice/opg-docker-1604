@@ -7,7 +7,7 @@ storage:
   engine: wiredTiger
   wiredTiger:
     engineConfig:
-      cacheSizeGB: {{ getv "mongo/storage/engine/cachesizedb" }}
+      cacheSizeGB: {{ getv "/mongo/storage/engine/cachesizedb" }}
   journal:
     enabled: true
 processManagement:
