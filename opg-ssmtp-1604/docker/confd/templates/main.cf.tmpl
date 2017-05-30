@@ -1,0 +1,33 @@
+sendmail_path = /usr/sbin/sendmail.postfix
+mynetworks_style = host
+sample_directory = /usr/share/doc/postfix-2.6.6/samples
+smtp_tls_security_level = encrypt
+daemon_directory = /usr/lib/postfix/sbin
+shlib_directory = /usr/lib/postfix/lib
+mydomain = {{ getv "/domain/from" }}
+myhostname = mail.$mydomain
+myorigin = $mydomain
+mydestination = $myhostname, localhost.$mydomain, localhost
+
+readme_directory = /usr/share/doc/postfix-2.6.6/README_FILES
+html_directory = no
+setgid_group = postdrop
+alias_database = hash:/etc/aliases
+smtp_tls_mandatory_ciphers = high
+newaliases_path = /usr/bin/newaliases.postfix
+mailq_path = /usr/bin/mailq.postfix
+data_directory = /var/lib/postfix
+inet_protocols = all
+queue_directory = /var/spool/postfix
+smtp_tls_mandatory_protocols = !SSLv2, !SSLv3
+manpage_directory = /usr/share/man
+command_directory = /usr/sbin
+debug_peer_level = 2
+mail_owner = postfix
+unknown_local_recipient_reject_code = 550
+smtp_tls_mandatory_exclude_ciphers = aNULL, RC4, MD5
+alias_maps = hash:/etc/aliases
+inet_interfaces = all
+
+#TODO: add relayhost for GSi
+relay_domains = {{ getv "/domain/to" }}
