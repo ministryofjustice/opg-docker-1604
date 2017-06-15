@@ -1,9 +1,11 @@
 FROM registry.service.opg.digital/opg-nginx-1604
 
 ARG PHP_PACKAGES="php-fpm php-cli php-imagick php-mongodb mongodb-clients php-curl php-xml postgresql-client \
-                  php-pgsql php-mcrypt php-memcached php-redis php-pear php-mbstring php-intl php-json mcrypt"
+                  php-pgsql php-mcrypt php-memcached php-redis php-pear php-mbstring php-intl php-json mcrypt \
+                  php-bcmath"
 
-RUN apt install -y $PHP_PACKAGES && \
+RUN apt update && \
+    apt install -y $PHP_PACKAGES && \
     apt clean && apt -y autoremove && \
     rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
 
