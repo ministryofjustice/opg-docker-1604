@@ -3,7 +3,11 @@ version: '2'
 services:
   clamav:
     container_name: clamav
-    #image: opg-clamav
     build: .
     ports:
       - "3310:3310"
+  freshclam:
+    container_name: freshclam
+    build: ../opg-freshclam
+    volumes_from:
+      - clamav:rw

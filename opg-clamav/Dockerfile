@@ -1,11 +1,6 @@
-FROM alpine:3.4
+FROM alpine:3.6
 
-RUN apk add --no-cache \
-  clamav \
-  clamav-libunrar \
-  freshclam \
-  openrc \
-  dcron
+RUN apk add --no-cache clamav clamav-libunrar
 
 RUN wget -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
   wget -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
@@ -14,10 +9,8 @@ RUN wget -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
 
 COPY clamd.conf freshclam.conf /etc/clamav/
 
-# Run freshclam every hour
-RUN echo '03 * * * * freshclam' >> /etc/crontabs/root
-
 # Expose the ports for clamd
 EXPOSE 3310
 
+VOLUME ["/var/lib/clamav"]
 CMD ["clamd"]
