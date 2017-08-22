@@ -1,0 +1,20 @@
+#!/bin/sh
+
+rm -f /etc/php/7.0/fpm/conf.d/*xdebug*
+rm -f /etc/php/7.0/cli/conf.d/*xdebug*
+
+if [ -n "${OPG_PHP_XDEBUG_REMOTE_HOST}" ]
+then
+    XDEBUG_REMOTE_PORT=${OPG_PHP_XDEBUG_REMOTE_PORT:-10000}
+    echo "Enabling PHP XDEBUG on host: ${OPG_PHP_XDEBUG_REMOTE_HOST} port: ${XDEBUG_REMOTE_PORT}"
+    cp /etc/php/7.0/xdebug-enable.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+    echo "xdebug.remote_host=${OPG_PHP_XDEBUG_REMOTE_HOST}" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+    echo "xdebug.remote_port=${XDEBUG_REMOTE_PORT}" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+    cp /etc/php/7.0/xdebug-enable.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
+    echo "xdebug.remote_host=${OPG_PHP_XDEBUG_REMOTE_HOST}" >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
+    echo "xdebug.remote_port=${XDEBUG_REMOTE_PORT}" >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
+else
+    echo "Disabling PHP XDEBUG - OPG_PHP_XDEBUG_REMOTE_HOST is not configured"
+    cp /etc/php/7.0/xdebug-disable.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+    cp /etc/php/7.0/xdebug-disable.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
+fi
