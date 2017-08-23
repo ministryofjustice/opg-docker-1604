@@ -1,7 +1,7 @@
 .PHONY: build
 
 registryUrl ?= registry.service.opg.digital
-image = opguk/phpcs
+image = opg-phpcs-1604
 
 build:
 	docker build $(no-cache) -t "$(registryUrl)/$(image)" .

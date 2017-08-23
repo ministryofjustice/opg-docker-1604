@@ -1,10 +1,11 @@
 FROM registry.service.opg.digital/opg-php-fpm-1604
 
-ADD  docker/phpunit-5.7.21.phar /usr/local/bin/phpunit
+RUN cd /tmp && wget https://phar.phpunit.de/phpunit-6.3.phar && \
+    chmod +x phpunit-6.3.phar && mv phpunit-6.3.phar /usr/local/bin/phpunit
 
 # enable php-xdebug for code coverage
-RUN cp /etc/php/7.0/xdebug-enable.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
-RUN cp /etc/php/7.0/xdebug-enable.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
+RUN cp /etc/php/7.0/xdebug-enable.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini && \
+    cp /etc/php/7.0/xdebug-enable.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
 
 # We need version 1.2 of the mongo extension
 RUN apt-get remove -y php-mongodb

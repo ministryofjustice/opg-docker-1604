@@ -1,7 +1,7 @@
 .PHONY: build
 
 registryUrl ?= registry.service.opg.digital
-image = opguk/phpunit
+image = opg-phpunit-1604
 
 build:
 	docker build $(no-cache) -t "$(registryUrl)/$(image)" .

@@ -3,10 +3,11 @@ ES_CONTAINERS:= opg-elasticsearch5-1604 opg-elasticsearch-shared-data-1604 opg-k
 WEB_CONTAINERS:= opg-nginx-router-1604 opg-wkhtmlpdf-1604 opg-ssmtp-1604
 DATA_CONTAINERS:= opg-rabbitmq-1604 opg-mongodb-1604
 JENKINS_CONTAINERS:= opg-jenkins2-1604 opg-jenkins-slave-1604
+DEV_CONTAINERS:= opg-phpunit-1604 opg-phpcs-1604
 
-ALL_CONTAINERS := $(CORE_CONTAINERS) $(ES_CONTAINERS) $(DATA_CONTAINERS) $(JENKINS_CONTAINERS) $(WEB_CONTAINERS)
+ALL_CONTAINERS := $(CORE_CONTAINERS) $(ES_CONTAINERS) $(DATA_CONTAINERS) $(JENKINS_CONTAINERS) $(WEB_CONTAINERS) $(DEV_CONTAINERS)
 
-.PHONY: build push pull showinfo $(CORE_CONTAINERS) $(ES_CONTAINERS) $(DATA_CONTAINERS) $(JENKINS_CONTAINERS) $(WEB_CONTAINERS) clean
+.PHONY: build push pull showinfo $(CORE_CONTAINERS) $(ES_CONTAINERS) $(DATA_CONTAINERS) $(JENKINS_CONTAINERS) $(WEB_CONTAINERS) $(DEV_CONTAINERS) clean
 
 tagrepo = no
 ifneq ($(stage),)
@@ -40,7 +41,8 @@ builddata: $(DATA_CONTAINERS)
 buildes: $(ES_CONTAINERS)
 buildjenkins: $(JENKINS_CONTAINERS)
 buildweb: $(WEB_CONTAINERS)
-build: buildcore builddata buildes buildjenkins buildweb
+builddev: $(DEV_CONTAINERS)
+build: buildcore builddata buildes buildjenkins buildweb builddev
 
 
 $(CORE_CONTAINERS):
@@ -56,6 +58,9 @@ $(JENKINS_CONTAINERS):
 	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
 
 $(WEB_CONTAINERS):
+	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
+
+$(DEV_CONTAINERS):
 	$(MAKE) -C $@ newtag=$(newtag) registryUrl=$(registryUrl) no-cache=$(no-cache)
 
 push:
