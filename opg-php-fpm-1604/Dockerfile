@@ -2,7 +2,7 @@ FROM registry.service.opg.digital/opg-nginx-1604
 
 ARG PHP_PACKAGES="php-fpm php-cli php-imagick php-mongodb mongodb-clients php-curl php-xml postgresql-client \
                   php-pgsql php-mcrypt php-memcached php-redis php-pear php-mbstring php-intl php-json mcrypt \
-                  php-bcmath"
+                  php-bcmath php-xdebug"
 
 RUN apt update && \
     apt install -y $PHP_PACKAGES && \
@@ -25,6 +25,13 @@ ADD  docker/logrotate.d/app /etc/logrotate.d/app
 
 ADD  docker/my_init.d /etc/my_init.d
 RUN  chmod a+x /etc/my_init.d/*
+
+ADD  docker/php/* /etc/php/7.0/
+
+# disable php-xdebug by default
+RUN  rm -f /etc/php/7.0/fpm/conf.d/*xdebug* && \
+     rm -f /etc/php/7.0/cli/conf.d/*xdebug* && \
+     rm /etc/php/7.0/mods-available/xdebug.ini
 
 ADD  docker/nginx /etc/nginx
 
@@ -50,4 +57,3 @@ ENV  OPG_PHP_POOL_MEMORY_LIMIT 256M
 ENV  OPG_PHP_POOL_POST_MAX_SIZE 64M
 ENV  OPG_PHP_POOL_UPLOAD_MAX_FILESIZE 64M
 ENV  OPG_PHP_POOL_MAX_INPUT_VARS 1000
-
