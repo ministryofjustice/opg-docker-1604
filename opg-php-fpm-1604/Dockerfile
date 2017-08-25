@@ -29,9 +29,9 @@ RUN  chmod a+x /etc/my_init.d/*
 ADD  docker/php/* /etc/php/7.0/
 
 # disable php-xdebug by default
-RUN  rm -f /etc/php/7.0/fpm/conf.d/*xdebug*
-RUN  rm -f /etc/php/7.0/cli/conf.d/*xdebug*
-RUN  rm /etc/php/7.0/mods-available/xdebug.ini
+RUN  rm -f /etc/php/7.0/fpm/conf.d/*xdebug* && \
+     rm -f /etc/php/7.0/cli/conf.d/*xdebug* && \
+     rm /etc/php/7.0/mods-available/xdebug.ini
 
 ADD  docker/nginx /etc/nginx
 
