@@ -19,9 +19,9 @@ server {
     ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
     {{ end }}
     {{ if exists "/opg/nginx/server/ssl/ciphers" }}
-    ssl_cipers {{ getv "/opg/nginx/server/ssl/ciphers" }};
+    ssl_ciphers {{ getv "/opg/nginx/server/ssl/ciphers" }};
     {{ else }}
-    ssl_cipers HIGH:!aNULL:!MD5;
+    ssl_ciphers HIGH:!aNULL:!MD5;
     {{ end }}
     rewrite_log  on;
     access_log  /var/log/app/nginx.access.json logstash_json;
