@@ -1,7 +1,11 @@
 FROM registry.service.opg.digital/opg-php-fpm-1604
 
-RUN cd /tmp && wget https://phar.phpunit.de/phpunit-6.3.phar && \
-    chmod +x phpunit-6.3.phar && mv phpunit-6.3.phar /usr/local/bin/phpunit
+ARG PHPUNIT_VERSION="6.4"
+
+RUN cd /tmp && \
+    wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar && \
+    chmod +x phpunit-${PHPUNIT_VERSION}.phar && \
+    mv phpunit-${PHPUNIT_VERSION}.phar /usr/local/bin/phpunit
 
 # enable php-xdebug for code coverage
 RUN cp /etc/php/7.0/xdebug-enable.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini && \
