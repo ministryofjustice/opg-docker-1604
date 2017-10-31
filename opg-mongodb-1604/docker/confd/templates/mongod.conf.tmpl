@@ -3,16 +3,20 @@ systemLog:
   path: "/var/log/mongodb/mongodb.log"
   logAppend: true
 storage:
-  dbPath: /data/mongodb
+  dbPath: "/data/mongodb"
   engine: wiredTiger
   wiredTiger:
     engineConfig:
-      cacheSizeGB: {{ getv "/mongo/storage/engine/cachesizedb" }}
+{{if exists "/mongo/storage/engine/cachesizegb"}}
+      cacheSizeGB: {{ getv "/mongo/storage/engine/cachesizegb" }}
+{{else}}
+      cacheSizeGB: 1
+{{end}}
   journal:
     enabled: true
 processManagement:
   fork: false
-  pidFilePath: /var/run/mongodb.pid
+  pidFilePath: "/var/run/mongodb.pid"
 net:
   port: 27017
 {{if exists "/mongo/ssl/pem" }}
