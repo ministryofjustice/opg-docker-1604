@@ -17,6 +17,9 @@ rs_hosts = os.environ['MONGO_RS_HOSTS'].split(',')
 admin_username = 'admin'
 admin_password = os.environ['MONGO_ADMIN_PASSWORD']
 
+print "Waiting 60 seconds to allow all nodes time to come up"
+time.sleep(60)
+
 if os.getenv('MONGO_ONE_NODE','False') == 'True':
   time.sleep(5)
   rs_initiate_js = "rs.initiate();"
@@ -24,9 +27,6 @@ else:
   if host_ip != socket.getaddrinfo(rs_hosts[0],80)[0][4][0]:
     print 'Doing nothing - only the first listed node should try to initiate replicate set'
     exit(0)
-
-  print "Waiting 1 minute to allow all nodes time to come up"
-  time.sleep(60)
 
   with open("/etc/hosts", "a") as myfile:
     myfile.write("127.0.0.1 " + rs_hosts[0])
