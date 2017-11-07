@@ -1,9 +1,9 @@
-FROM registry.service.opg.digital/opg-base-1604
+FROM golang:alpine
 
 ARG GOLANG_VERSION=1.9.2
 
-RUN curl -sSL https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz \
-        | tar -v -C /usr/local -xz && \
+RUN apk update && \
+    apk add git && \
     mkdir -p /go/src /go/bin && \
     chmod -R 777 /go
 
