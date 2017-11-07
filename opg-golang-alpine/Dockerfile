@@ -1,7 +1,5 @@
 FROM golang:alpine
 
-ARG GOLANG_VERSION=1.9.2
-
 RUN apk update && \
     apk add git && \
     mkdir -p /go/src /go/bin && \
