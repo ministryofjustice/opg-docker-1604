@@ -1,7 +1,7 @@
 .PHONY: build
 
 registryUrl ?= registry.service.opg.digital
-image = opg-golang-1604
+image = opg-golang-alpine
 
 build:
 	docker build --pull $(no-cache) -t "$(registryUrl)/$(image)" .
