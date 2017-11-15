@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 apt install -y libpcre3-dev zlib1g-dev libssl-dev libossp-uuid-dev uuid build-essential
 
