@@ -1,6 +1,6 @@
 FROM registry.service.opg.digital/opg-nginx-1604
 
-ENV PHP_PACKAGES="mcrypt \
+ARG PHP_PACKAGES="mcrypt \
                   mongodb-clients \
                   php-xdebug \
                   postgresql-client \
@@ -15,26 +15,24 @@ ENV PHP_PACKAGES="mcrypt \
                   php7.1-pgsql \
                   php7.1-xml"
 
-RUN apt-get install -y python-software-properties && \
+RUN apt-get update -y && \
+    apt-get install -y python-software-properties && \
     add-apt-repository -y ppa:ondrej/php && \
-    apt-get update -y && \
     apt-get install $PHP_PACKAGES -y && \
     apt clean && apt -y autoremove && \
     rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/* && \
     cd /tmp && \
     curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer
-
-RUN rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php && \
+    mv composer.phar /usr/local/bin/composer && \
+    rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php && \
     mkdir -p /data/session
 
 ADD  docker/confd /etc/confd
 
 ADD  docker/service/php-fpm /etc/sv/php-fpm
 RUN  chmod a+x /etc/sv/php-fpm/run && \
-     ln -s /etc/sv/php-fpm /etc/service/
-
-RUN  echo "<?php echo phpinfo(); ?>" > /app/public/info.php && \
+     ln -s /etc/sv/php-fpm /etc/service/ && \
+     echo "<?php echo phpinfo(); ?>" > /app/public/info.php && \
      chown app /app/public/info.php
 
 ADD  docker/logrotate.d/app /etc/logrotate.d/app
