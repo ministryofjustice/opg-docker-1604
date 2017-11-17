@@ -2,7 +2,7 @@
 
 registryUrl ?= registry.service.opg.digital
 
-image = opg-php71-fpm-1604
+image = opg-php-fpm-71-ppa-1604
 
 build:
 	docker build $(no-cache) -t "$(registryUrl)/$(image)" .
