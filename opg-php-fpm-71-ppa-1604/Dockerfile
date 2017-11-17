@@ -18,6 +18,7 @@ ARG PHP_PACKAGES="mcrypt \
 RUN apt-get update -y && \
     apt-get install -y python-software-properties && \
     add-apt-repository -y ppa:ondrej/php && \
+    apt-get update -y && \
     apt-get install $PHP_PACKAGES -y && \
     apt clean && apt -y autoremove && \
     rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/* && \

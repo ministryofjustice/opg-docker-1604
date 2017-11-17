@@ -1,6 +1,6 @@
 #a demo docker compose file
 
-phpfpm:
+phpfpm71:
   build: .
   ports:
   - 80:80
