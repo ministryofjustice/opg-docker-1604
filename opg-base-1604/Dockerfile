@@ -1,9 +1,10 @@
-FROM phusion/baseimage:0.9.21
+FROM phusion/baseimage:0.9.22
 
 # Set correct HOME
 ENV HOME /root
 ARG GOSU_VERSION=1.10
-ARG CONFD_VERSION=0.11.0
+ARG CONFD_VERSION=0.14.0
+ARG APT_PACKAGES="dos2unix git python-setuptools wget dnsmasq unzip zip netcat netcat-traditional iproute2 sudo"
 
 # For debconf not to complain
 ENV DEBIAN_FRONTEND noninteractive
@@ -15,22 +16,19 @@ ENV DEBIAN_FRONTEND noninteractive
 ADD docker/01norecommend /etc/apt/apt.conf.d/01norecommend
 ADD docker/sources.list /etc/apt/sources.list
 
-RUN gpg --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
-RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture)" \
-  && curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download//${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc" \
-  && gpg --verify /usr/local/bin/gosu.asc \
-  && rm /usr/local/bin/gosu.asc \
-  && chmod +x /usr/local/bin/gosu
-
-ARG APT_PACKAGES="dos2unix git python-setuptools wget dnsmasq unzip zip netcat netcat-traditional iproute2 sudo"
-
-RUN  rm -f /etc/apt/sources.list.d/* && \
-     apt update && \
-     apt install -y apt-utils && \
-     apt -y upgrade && \
-     apt install -y ${APT_PACKAGES} && \
-     apt-get clean && apt-get autoremove && \
-     rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
+RUN gpg --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
+    curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture)" && \
+    curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download//${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc" && \
+    gpg --verify /usr/local/bin/gosu.asc && \
+    rm /usr/local/bin/gosu.asc && \
+    chmod +x /usr/local/bin/gosu && \
+    rm -f /etc/apt/sources.list.d/* && \
+    apt update && \
+    apt install -y apt-utils && \
+    apt -y upgrade && \
+    apt install -y ${APT_PACKAGES} && \
+    apt autoremove && \
+    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
 
 # Pip installs
 # Install awscli to override the system one which is broken (with python 3.4.3 as of Sept 2015)
