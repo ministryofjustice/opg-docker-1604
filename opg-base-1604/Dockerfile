@@ -3,7 +3,7 @@ FROM phusion/baseimage:0.9.22
 # Set correct HOME
 ENV HOME /root
 ARG GOSU_VERSION=1.10
-ARG CONFD_VERSION=0.11.0
+ARG CONFD_VERSION=0.14.0
 
 # For debconf not to complain
 ENV DEBIAN_FRONTEND noninteractive
