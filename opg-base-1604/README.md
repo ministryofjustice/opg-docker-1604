@@ -53,7 +53,7 @@ Supported variables
 -------------------
 * OPG_DOCKER_TAG - see versions
 * SKIP_SSL_GENERATE - when set container will not create self signed certificate on start
-* SSL_CERT_COMMON_NAME - if set, its value will be used for `common name` while generating the self signed certificate 
+* OPG_SSL_CERT_COMMON_NAME - if set, its value will be used for `common name` while generating the self signed certificate 
 * OPG_BASE_SSL_CERT - pass a cert as a multiline or using `"\n"`
 * OPG_BASE_SSL_KEY - pass a key as a multiline or using `"\n"`
 
