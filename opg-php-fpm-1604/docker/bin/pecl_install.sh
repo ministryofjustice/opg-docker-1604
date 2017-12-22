@@ -9,11 +9,8 @@ pecl install mongodb
 echo "extension=mongodb.so" > /etc/php/7.0/mods-available/mongodb.ini && \
 phpenmod mongodb
 
-# install xdebug but disable by default (ubuntu packaged version is 2.4, need ^2.5)
+# install xdebug. It is disabled by default when installed via pecl (ubuntu packaged version is 2.4, need ^2.5)
 pecl install xdebug
-rm -f /etc/php/7.0/fpm/conf.d/*xdebug* && \
-rm -f /etc/php/7.0/cli/conf.d/*xdebug* && \
-rm /etc/php/7.0/mods-available/xdebug.ini
 
 # clean up
 apt remove -y --purge php-dev pkg-config
