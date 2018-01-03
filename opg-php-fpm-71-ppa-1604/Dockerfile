@@ -2,7 +2,7 @@ FROM registry.service.opg.digital/opg-nginx-1604
 
 ARG PHP_PACKAGES="mcrypt \
                   mongodb-clients \
-                  php-xdebug \
+                  phpphp -xdebug \
                   postgresql-client \
                   php7.1 \
                   php7.1-cli \
@@ -27,7 +27,9 @@ RUN apt-get update -y && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php && \
-    mkdir -p /data/session
+    mkdir -p /data/session && \
+    rm /etc/php/7.1/cli/conf.d/20-xdebug.ini && \
+    ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
 
 ADD  docker/confd /etc/confd
 
