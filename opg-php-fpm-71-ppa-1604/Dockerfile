@@ -27,7 +27,11 @@ RUN apt-get update -y && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php && \
-    mkdir -p /data/session
+    mkdir -p /data/session && \
+    phpdismod -v 7.1 xdebug && \
+    echo "xdebug.remote_enable=on\nxdebug.remote_port=9000\nxdebug.remote_host=10.254.254.254" \
+        >> /etc/php/7.1/mods-available/xdebug.ini;
+
 
 ADD  docker/confd /etc/confd
 
@@ -39,13 +43,6 @@ ADD  docker/logrotate.d/app /etc/logrotate.d/app
 
 ADD  docker/my_init.d /etc/my_init.d
 RUN  chmod a+x /etc/my_init.d/*
-
-ADD  docker/php/* /etc/php/7.1/
-
-# disable php-xdebug by default
-RUN  rm -f /etc/php/7.1/fpm/conf.d/*xdebug* && \
-     rm -f /etc/php/7.1/cli/conf.d/*xdebug* && \
-     rm /etc/php/7.1/mods-available/xdebug.ini
 
 ADD  docker/nginx /etc/nginx
 
