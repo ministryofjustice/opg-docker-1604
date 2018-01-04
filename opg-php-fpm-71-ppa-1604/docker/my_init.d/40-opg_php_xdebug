@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z "${OPG_PHP_XDEBUG_ENABLE}" ]
+then
+    echo "PHP-7.1's XDebug is disabled by default!
+        To enable XDebug pass OPG_PHP_XDEBUG_ENABLE environment variable when running this image."
+    phpdismod -v 7.1 xdebug
+else
+    echo "PHP7.1's XDebug enabled!"
+    phpenmod -v 7.1 xdebug
+fi
