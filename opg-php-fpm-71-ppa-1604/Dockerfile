@@ -33,9 +33,7 @@ ADD  docker/confd /etc/confd
 
 ADD  docker/service/php-fpm /etc/sv/php-fpm
 RUN  chmod a+x /etc/sv/php-fpm/run && \
-     ln -s /etc/sv/php-fpm /etc/service/ && \
-     echo "<?php echo phpinfo(); ?>" > /app/public/info.php && \
-     chown app /app/public/info.php
+     ln -s /etc/sv/php-fpm /etc/service/
 
 ADD  docker/logrotate.d/app /etc/logrotate.d/app
 
