@@ -55,8 +55,7 @@ RUN apt-get update -y && \
     echo "xdebug.remote_enable=on\nxdebug.remote_port=9000\nxdebug.remote_host=10.254.254.254" \
         >> /etc/php/7.1/mods-available/xdebug.ini && \
     chmod a+x /etc/sv/php-fpm/run && \
-    ln -s /etc/sv/php-fpm /etc/service/ && \
-    echo "<?php echo phpinfo(); ?>" > /app/public/info.php && \
+    ln -s /etc/sv/php-fpm /etc/service/ && \    
     chown app /app/public/info.php && \
     chmod a+x /etc/my_init.d/* && \
     pip install schedule statsd requests && \
