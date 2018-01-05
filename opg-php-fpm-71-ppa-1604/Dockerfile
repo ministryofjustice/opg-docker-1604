@@ -56,7 +56,6 @@ RUN apt-get update -y && \
         >> /etc/php/7.1/mods-available/xdebug.ini && \
     chmod a+x /etc/sv/php-fpm/run && \
     ln -s /etc/sv/php-fpm /etc/service/ && \    
-    chown app /app/public/info.php && \
     chmod a+x /etc/my_init.d/* && \
     pip install schedule statsd requests && \
     curl -s https://raw.githubusercontent.com/ministryofjustice/php-fpm-stats-collector/master/php-fpm-stats-collector.py > /usr/local/bin/php-fpm-stats-collector.py && \
