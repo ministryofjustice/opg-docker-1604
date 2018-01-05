@@ -1,8 +1,7 @@
 FROM registry.service.opg.digital/opg-base-1604
 
 ADD docker/bin/compile_nginx.sh /tmp/compile_nginx.sh
-RUN sh /tmp/compile_nginx.sh && \
-    apt-get update
+RUN sh /tmp/compile_nginx.sh
 
 ADD  docker/nginx /etc/nginx
 ADD  docker/confd /etc/confd
