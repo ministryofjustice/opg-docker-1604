@@ -41,7 +41,7 @@ ARG PHP_PACKAGES="mcrypt \
 
 
 RUN apt-get update -y && \
-# Add ondrej PPA and instal above packages
+# Add ondrej PPA and install above packages
     apt-get install -y python-software-properties && \
     add-apt-repository -y ppa:ondrej/php && \
     apt-get update -y && \
