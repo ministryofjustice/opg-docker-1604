@@ -39,25 +39,34 @@ ARG PHP_PACKAGES="mcrypt \
                   php7.1-pgsql \
                   php7.1-xml"
 
+
 RUN apt-get update -y && \
+# Add ondrej PPA and instal above packages
     apt-get install -y python-software-properties && \
     add-apt-repository -y ppa:ondrej/php && \
     apt-get update -y && \
     apt-get install $PHP_PACKAGES -y && \
     apt clean && apt -y autoremove && \
-    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/* && \
+# Make sure all of our scripts are executable
+    chmod a+x /etc/my_init.d/* && \
+# Create session data folder
+    mkdir -p /data/session && \
+# Install composer
     cd /tmp && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
-    rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php && \
-    mkdir -p /data/session && \
+# Disable and customise  PHP7.1's XDebug
     phpdismod -v 7.1 xdebug && \
     echo "xdebug.remote_enable=on\nxdebug.remote_port=9000\nxdebug.remote_host=10.254.254.254" \
         >> /etc/php/7.1/mods-available/xdebug.ini && \
+# Replace the original php-fpm configuration and prepare our our service runner
+    rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php && \
     chmod a+x /etc/sv/php-fpm/run && \
-    ln -s /etc/sv/php-fpm /etc/service/ && \    
-    chmod a+x /etc/my_init.d/* && \
+    ln -s /etc/sv/php-fpm /etc/service/ && \
+# Install php-fpm-stats-collector
     pip install schedule statsd requests && \
     curl -s https://raw.githubusercontent.com/ministryofjustice/php-fpm-stats-collector/master/php-fpm-stats-collector.py > /usr/local/bin/php-fpm-stats-collector.py && \
     chmod a+x /usr/local/bin/php-fpm-stats-collector.py &&\
-    chmod a+x /etc/sv/php-fpm-stats/run && ln -s /etc/sv/php-fpm-stats /etc/service/
+    chmod a+x /etc/sv/php-fpm-stats/run && ln -s /etc/sv/php-fpm-stats /etc/service/ && \
+# Clean up
+    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
