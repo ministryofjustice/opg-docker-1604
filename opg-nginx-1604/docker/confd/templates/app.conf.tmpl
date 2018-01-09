@@ -19,6 +19,10 @@ server {
     }
     {{ end }}
 
+    {{ if exists "/opg/nginx/redirect/domain" }}
+    return 301 https://{{ getv "/opg/nginx/redirect/domain" }}$1request_uri permanent;
+    {{ end }}
+
     rewrite_log  on;
     access_log  /var/log/app/nginx.access.json logstash_json;
     error_log   /var/log/app/nginx.error.log error;
