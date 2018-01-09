@@ -13,6 +13,14 @@ server {
     {{ if exists "/opg/nginx/server/names" }}
     server_name {{ getv "/opg/nginx/server/names" }};
     {{ end }}
+
+    {{ if exists "/opg/nginx/rewrite/www" }}
+    if ($host ~* www\.(.*)) {
+        set $host_without_www $1;
+        rewrite ^ $scheme://$host_without_www$1request_uri permanent;
+    }
+    {{ end }}
+
     {{ if exists "/opg/nginx/server/ssl/protocols" }}
     ssl_protocols {{ getv "/opg/nginx/server/ssl/protocols" }};
     {{ else }}

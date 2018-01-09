@@ -12,6 +12,13 @@ server {
     listen     443 ssl;
     server_name {{ getv "/opg/nginx/server/names" }};
 
+    {{ if exists "/opg/nginx/rewrite/www" }}
+    if ($host ~* www\.(.*)) {
+        set $host_without_www $1;
+        rewrite ^ $scheme://$host_without_www$1request_uri permanent;
+    }
+    {{ end }}
+
     rewrite_log  on;
     access_log  /var/log/app/nginx.access.json logstash_json;
     error_log   /var/log/app/nginx.error.log error;
