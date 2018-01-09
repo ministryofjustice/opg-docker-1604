@@ -20,7 +20,7 @@ server {
     {{ end }}
 
     {{ if exists "/opg/nginx/redirect/domain" }}
-    return 301 https://{{ getv "/opg/nginx/redirect/domain" }}$1request_uri permanent;
+    return 301 https://{{ getv "/opg/nginx/redirect/domain" }}$1request_uri;
     {{ end }}
 
     rewrite_log  on;
