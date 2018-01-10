@@ -20,7 +20,11 @@ server {
         rewrite ^ $scheme://$host_without_www$1request_uri permanent;
     }
     {{ end }}
-
+    {{ if exists "/opg/nginx/rewrite/nonwww" }}
+    if ($host !~* ^www\.) {
+        rewrite ^(.*)$ $scheme://www.$host$1 permanent;
+    }
+    {{ end }}
     {{ if exists "/opg/nginx/server/ssl/protocols" }}
     ssl_protocols {{ getv "/opg/nginx/server/ssl/protocols" }};
     {{ else }}
