@@ -23,8 +23,7 @@ ENV  OPG_PHP_POOL_POST_MAX_SIZE 64M
 ENV  OPG_PHP_POOL_UPLOAD_MAX_FILESIZE 64M
 ENV  OPG_PHP_POOL_MAX_INPUT_VARS 1000
 
-ARG PHP_PACKAGES="mcrypt \
-                  mongodb-clients \
+ARG PHP_PACKAGES="mongodb-clients \
                   php-xdebug \
                   postgresql-client \
                   php7.1 \
