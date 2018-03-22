@@ -1,5 +1,7 @@
 // Example taken from https://jenkins.io/doc/pipeline/examples/#jobs-in-parallel
 
+def githubUserPassCredentialsId = '9fb2f9f6-657a-463c-bc1d-2da04b886e41'
+
 // Our initial list of strings we want to run in parallel
 def baseImageList = ['opg-base-1604', 'opg-golang-alpine', 'opg-elasticsearch-shared-data-1604']
 
@@ -68,16 +70,20 @@ node("!master")  {
                 // this can change to `-dev` tags we we switch over.
                 env.STAGEARG = "--stage master"
             }
-        }
-        script {
-            sh '''
-                virtualenv venv
-                . venv/bin/activate
-                pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
-                git fetch --tags
-                semvertag bump patch $STAGEARG > semvertag.txt
-                NEWTAG=$(cat semvertag.txt); semvertag tag ${NEWTAG}
-            '''
+        
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: githubUserPassCredentialsId, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                sh '''
+                    virtualenv venv
+                    . venv/bin/activate
+                    pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
+                    # git config tweak is due to a limitation on the jenkins branch sources (github) plugin
+                    git config url."https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/".insteadOf "https://github.com/"
+                    git fetch --tags
+                    semvertag bump patch $STAGEARG > semvertag.txt
+                    NEWTAG=$(cat semvertag.txt); semvertag tag ${NEWTAG}
+                '''
+            }
+
             env.NEWTAG = readFile('semvertag.txt').trim()
             currentBuild.description = "${NEWTAG}"
         }
