@@ -78,13 +78,13 @@ node("!master")  {
                     pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
                     # git config tweak is due to a limitation on the jenkins branch sources (github) plugin
                     git config url."https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/".insteadOf "https://github.com/"
-
-                    git config user.name "${GIT_USERNAME}"
-                    git config user.email "${GIT_EMAIL}"
-
+                    
                     git fetch --tags
                     semvertag bump patch $STAGEARG > semvertag.txt
-                    NEWTAG=$(cat semvertag.txt); semvertag tag ${NEWTAG}
+                    NEWTAG=$(cat semvertag.txt); 
+
+                    git tag ${NEWTAG}
+                    git push origin ${NEWTAG}
                 '''
             }
 
