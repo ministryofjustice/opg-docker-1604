@@ -36,8 +36,8 @@ ENV HOME="/usr/share/elasticsearch" \
 RUN groupadd -g 3999 elasticsearch && useradd -m -u 3999 -g 3999 elasticsearch &&\
     wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - &&\
     echo "deb ${ELASTICSEARCH_REPO_BASE} stable main" > /etc/apt/sources.list.d/elasticsearch.list &&\
-    apt update -qq &&\
-    apt install -y elasticsearch=${ELASTICSEARCH_VERSION} &&\
+    apt-get update -qq &&\
+    apt-get install -y elasticsearch=${ELASTICSEARCH_VERSION} &&\
     pip install elasticsearch-curator &&\
     rm -rf /var/lib/apt/lists/* &&\
     echo "Setting owner/group on path repo here as if not directory ends up as root:root regardless of later chown/chgrp" &&\
@@ -51,7 +51,8 @@ RUN groupadd -g 3999 elasticsearch && useradd -m -u 3999 -g 3999 elasticsearch &
     chmod -R a+x /scripts/elasticsearch &&\
     chmod -R a+x /opt &&\
     ln -s /etc/sv/elasticsearch /etc/service/ &&\
-    ln -sf /dev/stdout /var/log/elastic-scripts.log
+    ln -sf /dev/stdout /var/log/elastic-scripts.log &&\
+    confd -onetime -backend env
 
 EXPOSE 9200 9300
 VOLUME ${ELASTICSEARCH_PATH_DATA}

@@ -1,0 +1,57 @@
+
+def make_command(String, folder, String action, String fileName) {
+  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: githubUserPassCredentialsId, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+
+    dir("$folder"){ sh "make test" }
+  }
+}
+
+
+pipeline{
+  agent { label "!master" }
+
+  stages{
+    stage('Build Base Images'){
+      parallel{
+        stage('opg-base-1604')                      { steps { script { make_command('opg-base-1604')                      }}}
+        stage('opg-golang-alpine')                  { steps { script { make_command('opg-golang-alpine')                  }}}
+        stage('opg-elasticsearch-shared-data-1604') { steps { script { make_command('opg-elasticsearch-shared-data-1604') }}}
+      }
+    }
+
+    stage('Base Dependent'){
+        parallel{
+          stage('opg-nginx-1604')     { steps { script { make_command('opg-nginx-1604')     }}}
+          stage('opg-jre8-1604')      { steps { script { make_command('opg-jre8-1604')      }}}
+          stage('opg-kibana-1604')    { steps { script { make_command('opg-kibana-1604')    }}}
+          stage('opg-wkhtmlpdf-1604') { steps { script { make_command('opg-wkhtmlpdf-1604') }}}
+          stage('opg-ssmtp-1604')     { steps { script { make_command('opg-ssmtp-1604')     }}}
+          stage('opg-rabbitmq-1604')  { steps { script { make_command('opg-rabbitmq-1604')  }}}
+          stage('opg-mongodb-1604')   { steps { script { make_command('opg-mongodb-1604')   }}}
+        }
+    }
+
+    stage('Nginx Depedent'){
+      parallel{
+        stage('opg-php-fpm-71-ppa-1604') { steps { script { make_command('opg-php-fpm-71-ppa-1604') }}}
+        stage('opg-php-fpm-1604')        { steps { script { make_command('opg-php-fpm-1604')        }}}
+        stage('opg-nginx-router-1604')   { steps { script { make_command('opg-nginx-router-1604')   }}}
+      }
+    }
+
+    stage('JRE Depedent'){
+      parallel{
+        stage('opg-elasticsearch5-1604') { steps { script { make_command('opg-elasticsearch5-1604') }}}
+        stage('opg-jenkins2-1604')       { steps { script { make_command('opg-jenkins2-1604')       }}}
+        stage('opg-jenkins-slave-1604')  { steps { script { make_command('opg-jenkins-slave-1604')  }}}
+      }
+    }
+
+    stage('PHP-FPM Images'){
+      parallel{
+        stage('opg-phpunit-1604') { steps { script { make_command('opg-phpunit-1604') }}}
+        stage('opg-phpcs-1604')   { steps { script { make_command('opg-phpcs-1604')   }}}
+      }
+    }
+  }
+}

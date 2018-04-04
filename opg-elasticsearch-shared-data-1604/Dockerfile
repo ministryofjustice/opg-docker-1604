@@ -1,7 +1,5 @@
 FROM alpine
 
-RUN
-
 ENV BEATS_DASHBOARD_VERSION="5.4.0" \
     HOME="/root"
 
