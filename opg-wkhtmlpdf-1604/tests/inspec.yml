@@ -1,0 +1,8 @@
+name: OPG wkhtmlpdf
+title: OPG wkhtmlpdf
+maintainer: OPG WebOps
+copyright: Copyright (c) 2018 Crown Copyright (Ministry of Justice)
+copyright_email: opgteam@digital.justice.gov.uk
+license: MIT
+summary: An InSpec Compliance Profile wkhtmlpdf
+version: 0.1.0

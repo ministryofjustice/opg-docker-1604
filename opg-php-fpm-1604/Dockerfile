@@ -1,56 +1,52 @@
 FROM registry.service.opg.digital/opg-nginx-1604
 
-ARG PHP_PACKAGES="php-fpm php-cli php-imagick mongodb-clients php-curl php-xml postgresql-client php-pgsql php-mcrypt \
-                  php-memcached php-redis php-pear php-mbstring php-intl php-json mcrypt php-bcmath"
+ARG PHP_PACKAGES="php-fpm php-cli php-imagick php-curl php-xml php-pgsql \
+                  php-mcrypt php-memcached php-redis php-pear php-mbstring \
+                  php-intl php-json mcrypt php-bcmath \
+                  postgresql-client mongodb-clients"
 
-RUN apt update && \
-    apt install -y $PHP_PACKAGES && \
-    apt clean && apt -y autoremove && \
-    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
+ENV PHP_VERSION="7.0" \
+    STATSD_HOST="monitoring" \
+    STATSD_PORT="8125" \
+    STATSD_DELAY="10" \
+    FPM_STATUS_URL="http://localhost:81/status" \
+    OPG_STACKNAME="php-fpm" \
+    OPG_PHP_POOL_USER="app" \
+    OPG_PHP_POOL_GROUP="app" \
+    OPG_PHP_POOL_CHILDREN_MAX="4" \
+    OPG_PHP_POOL_REQUESTS_MAX="0" \
+    OPG_PHP_POOL_REQUEST_TERMINATE_TIMEOUT="60" \
+    OPG_PHP_POOL_MEMORY_LIMIT="256M" \
+    OPG_PHP_POOL_POST_MAX_SIZE="64M" \
+    OPG_PHP_POOL_UPLOAD_MAX_FILESIZE="64M" \
+    OPG_PHP_POOL_MAX_INPUT_VARS="1000"
 
-RUN rm -f /etc/php/7.0/fpm/php-fpm.conf /etc/php/7.0fpm/pool.d/www.conf /etc/cron.d/php && \
+RUN apt-get update &&\
+    apt-get install -y $PHP_PACKAGES &&\
+    apt-get clean && apt-get -y autoremove
+
+RUN rm -f /etc/php/${PHP_VERSION}/fpm/php-fpm.conf "/etc/php/${PHP_VERSION}fpm/pool.d/www.conf" /etc/cron.d/php &&\
     mkdir -p /data/session
 
-ADD  docker/confd /etc/confd
+COPY docker/. /
 
-ADD  docker/service/php-fpm /etc/sv/php-fpm
-RUN  chmod a+x /etc/sv/php-fpm/run && \
-     ln -s /etc/sv/php-fpm /etc/service/
+RUN echo "Enabling php-fpm service"    &&\
+    chmod a+x /etc/sv/php-fpm/run      &&\
+    ln -s /etc/sv/php-fpm /etc/service/
 
-RUN  echo "<?php echo('hello World :)') ?>" > /app/public/index.php && \
-     chown app /app/public/index.php
+RUN echo "<?php echo('hello World :)') ?>" > /app/public/index.php &&\
+    chown app /app/public/index.php &&\
+    chmod a+x /etc/my_init.d/*
 
-ADD  docker/logrotate.d/app /etc/logrotate.d/app
+RUN echo "Installing mongodb and xdebug" &&\
+    apt-get install -y php-dev pkg-config &&\
+    pecl install mongodb &&\
+    echo "extension=mongodb.so" > /etc/php/${PHP_VERSION}/mods-available/mongodb.ini &&\
+    phpenmod mongodb &&\
+    # install xdebug. It is disabled by default when installed via pecl (ubuntu packaged version is 2.4, need ^2.5)
+    pecl install xdebug &&\
+    apt-get remove -y --purge php-dev pkg-config &&\
+    apt-get clean && apt-get autoremove -y &&\
+    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
 
-ADD  docker/my_init.d /etc/my_init.d
-RUN  chmod a+x /etc/my_init.d/*
-
-ADD  docker/php/* /etc/php/7.0/
-
-ADD  docker/bin/pecl_install.sh /tmp/pecl_install.sh
-RUN  sh /tmp/pecl_install.sh
-
-ADD  docker/nginx /etc/nginx
-
-RUN  pip install schedule statsd requests && \
-     curl -s https://raw.githubusercontent.com/ministryofjustice/php-fpm-stats-collector/master/php-fpm-stats-collector.py > /usr/local/bin/php-fpm-stats-collector.py && \
-     chmod a+x /usr/local/bin/php-fpm-stats-collector.py
-
-ADD  docker/service/php-fpm-stats /etc/sv/php-fpm-stats
-RUN  chmod a+x /etc/sv/php-fpm-stats/run && ln -s /etc/sv/php-fpm-stats /etc/service/
-
-ENV  STATSD_HOST monitoring
-ENV  STATSD_PORT 8125
-ENV  STATSD_DELAY 10
-ENV  FPM_STATUS_URL http://localhost:81/status
-ENV  OPG_STACKNAME php-fpm
-
-ENV  OPG_PHP_POOL_USER app
-ENV  OPG_PHP_POOL_GROUP app
-ENV  OPG_PHP_POOL_CHILDREN_MAX 4
-ENV  OPG_PHP_POOL_REQUESTS_MAX 0
-ENV  OPG_PHP_POOL_REQUEST_TERMINATE_TIMEOUT 60
-ENV  OPG_PHP_POOL_MEMORY_LIMIT 256M
-ENV  OPG_PHP_POOL_POST_MAX_SIZE 64M
-ENV  OPG_PHP_POOL_UPLOAD_MAX_FILESIZE 64M
-ENV  OPG_PHP_POOL_MAX_INPUT_VARS 1000
+RUN pip install schedule statsd requests

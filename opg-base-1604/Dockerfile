@@ -1,79 +1,54 @@
 FROM phusion/baseimage:0.9.22
 
-# Set correct HOME
-ENV HOME /root
-ARG GOSU_VERSION=1.10
-ARG CONFD_VERSION=0.14.0
-ARG APT_PACKAGES="dos2unix git python-setuptools wget dnsmasq unzip zip netcat netcat-traditional iproute2 sudo"
+ENV HOME="/root"                     \
+    DEBIAN_FRONTEND="noninteractive" \
+    LANG="en_GB.UTF-8"               \
+    LANGUAGE="en_GB:en"              \
+    LC_ALL="en_GB.UTF-8"             \
+    OPG_SERVICE="base"               \
+    BEAVER_VERSION="36.2.1"          \
+    CONFD_VERSION="0.15.0"           \
+    GOSU_VERSION="1.10"
 
-# For debconf not to complain
-ENV DEBIAN_FRONTEND noninteractive
+COPY docker/. /
 
-# Ensure that all packages are latest and use AWS EU mirror
-# Basic packages
-# Log aggregation
-# Set --no-install-recommends as our default
-ADD docker/01norecommend /etc/apt/apt.conf.d/01norecommend
-ADD docker/sources.list /etc/apt/sources.list
+RUN locale-gen en_GB en_GB.UTF-8 &&\
+    echo "Installing Gosu" &&\
+    gpg --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 &&\
+    curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture)" &&\
+    curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc" &&\
+    gpg --verify /usr/local/bin/gosu.asc &&\
+    rm /usr/local/bin/gosu.asc &&\
+    chmod +x /usr/local/bin/gosu
 
-RUN gpg --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
-    curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture)" && \
-    curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download//${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc" && \
-    gpg --verify /usr/local/bin/gosu.asc && \
-    rm /usr/local/bin/gosu.asc && \
-    chmod +x /usr/local/bin/gosu && \
-    rm -f /etc/apt/sources.list.d/* && \
-    apt update && \
-    apt install -y apt-utils && \
-    apt -y upgrade && \
-    apt install -y ${APT_PACKAGES} && \
-    apt autoremove && \
-    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
+RUN echo "Updating Packages" &&\
+    apt-get update -qq &&\
+    apt-get install -y git dnsmasq unzip zip python python-pip python-setuptools wget
 
-# Pip installs
-# Install awscli to override the system one which is broken (with python 3.4.3 as of Sept 2015)
-RUN easy_install pip && pip install -U pip && pip install awscli Beaver
+RUN echo "Installing log aggregation and AWSCLI" &&\
+    pip install -U pip &&\
+    pip install -q awscli Beaver==${BEAVER_VERSION} &&\
+    mkdir -p /etc/beaver.d &&\
+    chmod a+x /etc/sv/beaver/run  && ln -s /etc/sv/beaver  /etc/service/   &&\
+    chmod a+x /etc/sv/dnsmasq/run && ln -s /etc/sv/dnsmasq /etc/service/
 
-# ConfD install
-RUN  wget -O /usr/bin/confd https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64 && \
-     chmod a+x /usr/bin/confd && \
-     mkdir -p /etc/confd/conf.d && \
-     mkdir -p /etc/confd/templates
+RUN echo "Installing ConfD" &&\
+    curl -o /usr/bin/confd -SL "https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" &&\
+    chmod a+x /usr/bin/confd &&\
+    mkdir -p /etc/confd/conf.d /etc/confd/templates
 
-# Locale
-RUN  locale-gen en_GB en_GB.UTF-8
-
-# Let's disable ssh access (on phusion/baseimage:0.9.16 you still need to remove server key)
-RUN  rm /etc/my_init.d/00_regen_ssh_host_keys.sh && \
-     rm -rf /etc/service/sshd || true
-
-# Application user and location
-RUN  useradd -m -d /app app && \
-     mkdir -p /var/log/app /data /var/run/app && chown app /var/log/app /data /var/run/app
-
-ADD  docker/service/beaver /etc/sv/beaver
-RUN  chmod a+x /etc/sv/beaver/run && \
-     ln -s /etc/sv/beaver /etc/service/ && \
-     mkdir -p /etc/beaver.d
-
-# Provide a resolver at localhost for software that can't/won't use /etc/resolv.conf
-ADD  docker/service/dnsmasq /etc/service/dnsmasq
-RUN  chmod a+x /etc/service/dnsmasq/run
-
-# disable MTU on vixie cron
-ADD  docker/cron/crontab /etc/crontab
-ADD  docker/cron/root /var/spool/cron/crontabs/root
-RUN  chmod 600 /var/spool/cron/crontabs/root
-ADD  docker/cron/app /var/spool/cron/crontabs/app
-RUN  chown app:crontab /var/spool/cron/crontabs/app && chmod 600 /var/spool/cron/crontabs/app
-
-ADD  docker/my_init.d /etc/my_init.d
-RUN  chmod a+x /etc/my_init.d/*
-
-ADD  docker/confd /etc/confd
-
-RUN mkdir -p /scripts/base
-ADD docker/scripts /scripts/base
-RUN chmod -R a+x /scripts/base
-
-ENV OPG_SERVICE base
+RUN echo "Disaling ssh access" &&\
+    rm /etc/my_init.d/00_regen_ssh_host_keys.sh &&\
+    rm -rf /etc/service/sshd || true &&\
+    echo "Application user and location" &&\
+    useradd -m -d /app app &&\
+    mkdir -p /var/log/app /data /var/run/app &&\
+    chown app /var/log/app /data /var/run/app &&\
+    echo "Providing a resolver at localhost for software that can't/won't use /etc/resolv.conf" &&\
+    chmod a+x /etc/service/dnsmasq/run &&\
+    echo "Disabling MTU on vixie cron" &&\
+    chmod 600 /var/spool/cron/crontabs/root &&\
+    chmod 600 /var/spool/cron/crontabs/app &&\
+    chown app:crontab /var/spool/cron/crontabs/app && \
+    chmod a+x /etc/my_init.d/* &&\
+    chmod -R a+x /scripts/base
