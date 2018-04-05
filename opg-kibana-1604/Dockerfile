@@ -1,7 +1,7 @@
 FROM registry.service.opg.digital/opg-base-1604
 
 COPY docker/. /
-ENV KIBANA_VERSION 5.4.0 \
+ENV KIBANA_VERSION="5.4.0" \
     ES_SKIP_SET_KERNEL_PARAMETERS="true" \
     ELASTICSEARCH_REPO_BASE="https://artifacts.elastic.co/packages/5.x/apt" \
     PORT="5601"    \
