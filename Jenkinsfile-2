@@ -10,9 +10,12 @@ pipeline{
         steps {
           sh """
           ls /opt/rubies;
-          cat /usr/local/share/chruby/chruby.sh; 
-          . /usr/local/share/chruby/chruby.sh;
-          chruby ruby-2.5.0
+          cat /usr/local/share/chruby/chruby.sh;
+          bash -c '
+            . /usr/local/share/chruby/chruby.sh;
+            chruby ruby-2.5.0
+          '
+
           """
       }
     }
