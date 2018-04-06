@@ -1,7 +1,3 @@
-def make_command(String, folder) {
-  dir("$folder"){ sh "make rebuild && make test" }
-}
-
 pipeline{
   agent { label "!master" }
 
@@ -9,12 +5,10 @@ pipeline{
     stage('InspecGem'){
         steps {
           sh """
-          bash -c '
+          #!/bin/bash
             . /usr/local/share/chruby/chruby.sh;
             chruby ruby-2.5.0
             gem install inspec -q --no-document
-          '
-
           """
       }
     }
