@@ -1,8 +1,8 @@
 
-def make_command(String, folder, String action, String fileName) {
+def make_command(String, folder) {
   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: githubUserPassCredentialsId, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
 
-    dir("$folder"){ sh "make test" }
+    dir("$folder"){ sh "make rebuild && make test" }
   }
 }
 
