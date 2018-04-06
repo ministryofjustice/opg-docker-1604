@@ -15,45 +15,45 @@ pipeline{
     }
     stage('Build Base Images'){
       parallel{
-        stage('opg-base-1604')                      { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-        stage('opg-golang-alpine')                  { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-        stage('opg-elasticsearch-shared-data-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-base-1604')                      { steps { dir(STAGE_NAME){ sh "make test" } } }
+        stage('opg-golang-alpine')                  { steps { dir(STAGE_NAME){ sh "make test" } } }
+        stage('opg-elasticsearch-shared-data-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
 
       }
     }
 
     stage('Base Dependent'){
         parallel{
-          stage('opg-nginx-1604')     { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-          stage('opg-jre8-1604')      { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-          stage('opg-kibana-1604')    { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-          stage('opg-wkhtmlpdf-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-          stage('opg-ssmtp-1604')     { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-          stage('opg-rabbitmq-1604')  { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-          stage('opg-mongodb-1604')   { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+          stage('opg-nginx-1604')     { steps { dir(STAGE_NAME){ sh "make test" } } }
+          stage('opg-jre8-1604')      { steps { dir(STAGE_NAME){ sh "make test" } } }
+          stage('opg-kibana-1604')    { steps { dir(STAGE_NAME){ sh "make test" } } }
+          stage('opg-wkhtmlpdf-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
+          stage('opg-ssmtp-1604')     { steps { dir(STAGE_NAME){ sh "make test" } } }
+          stage('opg-rabbitmq-1604')  { steps { dir(STAGE_NAME){ sh "make test" } } }
+          stage('opg-mongodb-1604')   { steps { dir(STAGE_NAME){ sh "make test" } } }
         }
     }
 
     stage('Nginx Depedent'){
       parallel{
-        stage('opg-php-fpm-71-ppa-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-        stage('opg-php-fpm-1604')        { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-        stage('opg-nginx-router-1604')   { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-php-fpm-71-ppa-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
+        stage('opg-php-fpm-1604')        { steps { dir(STAGE_NAME){ sh "make test" } } }
+        stage('opg-nginx-router-1604')   { steps { dir(STAGE_NAME){ sh "make test" } } }
       }
     }
 
     stage('JRE Depedent'){
       parallel{
-        stage('opg-elasticsearch5-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-        stage('opg-jenkins2-1604')       { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-        stage('opg-jenkins-slave-1604')  { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-elasticsearch5-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
+        stage('opg-jenkins2-1604')       { steps { dir(STAGE_NAME){ sh "make test" } } }
+        stage('opg-jenkins-slave-1604')  { steps { dir(STAGE_NAME){ sh "make test" } } }
       }
     }
 
     stage('PHP-FPM Images'){
       parallel{
-        stage('opg-phpunit-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
-        stage('opg-phpcs-1604')   { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-phpunit-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
+        stage('opg-phpcs-1604')   { steps { dir(STAGE_NAME){ sh "make test" } } }
       }
     }
   }
