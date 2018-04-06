@@ -9,9 +9,10 @@ build:
 	docker tag "$(registryUrl)/$(image)" "$(registryUrl)/$(image):$(newtag)"
 
 rebuild:
-	docker-compose -p test build
+	docker-compose build
 
 test:
-	docker-compose -p test up -d basegen
-	inspec exec tests -t docker://test_basegen_1
-	docker-compose -p test down
+	rand=$$(date +'%H%M%S') &&\
+	docker-compose -p "$${rand}" -f tests/docker-compose.yml up -d &&\
+	inspec exec tests -t "docker://$${rand}_basegen_1" &&\
+	docker-compose -p "$${rand}" -f tests/docker-compose.yml down

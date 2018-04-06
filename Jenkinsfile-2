@@ -5,10 +5,11 @@ pipeline{
     stage('InspecGem'){
         steps {
           sh """
-          #!/bin/bash
+          bash -c '
             . /usr/local/share/chruby/chruby.sh;
             chruby ruby-2.5.0
             gem install inspec -q --no-document
+          '
           """
       }
     }
@@ -23,36 +24,36 @@ pipeline{
 
     stage('Base Dependent'){
         parallel{
-          stage('opg-nginx-1604')     { steps { script { make_command('opg-nginx-1604')     }}}
-          stage('opg-jre8-1604')      { steps { script { make_command('opg-jre8-1604')      }}}
-          stage('opg-kibana-1604')    { steps { script { make_command('opg-kibana-1604')    }}}
-          stage('opg-wkhtmlpdf-1604') { steps { script { make_command('opg-wkhtmlpdf-1604') }}}
-          stage('opg-ssmtp-1604')     { steps { script { make_command('opg-ssmtp-1604')     }}}
-          stage('opg-rabbitmq-1604')  { steps { script { make_command('opg-rabbitmq-1604')  }}}
-          stage('opg-mongodb-1604')   { steps { script { make_command('opg-mongodb-1604')   }}}
+          stage('opg-nginx-1604')     { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+          stage('opg-jre8-1604')      { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+          stage('opg-kibana-1604')    { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+          stage('opg-wkhtmlpdf-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+          stage('opg-ssmtp-1604')     { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+          stage('opg-rabbitmq-1604')  { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+          stage('opg-mongodb-1604')   { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
         }
     }
 
     stage('Nginx Depedent'){
       parallel{
-        stage('opg-php-fpm-71-ppa-1604') { steps { script { make_command('opg-php-fpm-71-ppa-1604') }}}
-        stage('opg-php-fpm-1604')        { steps { script { make_command('opg-php-fpm-1604')        }}}
-        stage('opg-nginx-router-1604')   { steps { script { make_command('opg-nginx-router-1604')   }}}
+        stage('opg-php-fpm-71-ppa-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-php-fpm-1604')        { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-nginx-router-1604')   { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
       }
     }
 
     stage('JRE Depedent'){
       parallel{
-        stage('opg-elasticsearch5-1604') { steps { script { make_command('opg-elasticsearch5-1604') }}}
-        stage('opg-jenkins2-1604')       { steps { script { make_command('opg-jenkins2-1604')       }}}
-        stage('opg-jenkins-slave-1604')  { steps { script { make_command('opg-jenkins-slave-1604')  }}}
+        stage('opg-elasticsearch5-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-jenkins2-1604')       { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-jenkins-slave-1604')  { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
       }
     }
 
     stage('PHP-FPM Images'){
       parallel{
-        stage('opg-phpunit-1604') { steps { script { make_command('opg-phpunit-1604') }}}
-        stage('opg-phpcs-1604')   { steps { script { make_command('opg-phpcs-1604')   }}}
+        stage('opg-phpunit-1604') { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
+        stage('opg-phpcs-1604')   { steps { dir(STAGE_NAME){ sh "make rebuild && make test" } } }
       }
     }
   }

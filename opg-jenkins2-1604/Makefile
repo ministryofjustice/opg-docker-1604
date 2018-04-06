@@ -12,6 +12,7 @@ rebuild:
 	docker-compose -f tests/docker-compose.yml -p test build
 
 test:
-	docker-compose -f tests/docker-compose.yml -p test up -d basegen
-	inspec exec tests -t docker://test_basegen_1
-	docker-compose -f tests/docker-compose.yml  -p test down
+	rand=$$(date +'%H%M%S') &&\
+	docker-compose -p "$${rand}" -f tests/docker-compose.yml up -d &&\
+	inspec exec tests -t "docker://$${rand}_basegen_1" &&\
+	docker-compose -p "$${rand}" -f tests/docker-compose.yml down
