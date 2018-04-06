@@ -1,7 +1,7 @@
 name: OPG Elasticsearch Shared Data
 title: OPG Elasticsearch Shared Data
 maintainer: OPG WebOps
-copyright: opyright (c) 2018 Crown Copyright (Ministry of Justice)
+copyright:Copyright (c) 2018 Crown Copyright (Ministry of Justice)
 copyright_email: opgteam@digital.justice.gov.uk
 license: MIT
 summary: An InSpec Compliance Profile Elasticsearch Shared Data

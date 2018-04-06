@@ -1,7 +1,6 @@
 FROM golang:alpine
 
-RUN apk update               &&\
-    apk add git              &&\
+RUN apk add --no-cache git   &&\
     mkdir -p /go/src /go/bin &&\
     chmod -R 777 /go
 
