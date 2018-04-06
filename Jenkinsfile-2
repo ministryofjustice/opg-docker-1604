@@ -8,7 +8,7 @@ pipeline{
   stages{
     stage('InspecGem'){
         steps {
-          sh 'env''
+          sh 'env'
       }
     }
     stage('Build Base Images'){
