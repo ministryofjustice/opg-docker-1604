@@ -6,6 +6,13 @@ pipeline{
   agent { label "!master" }
 
   stages{
+    stage('InspecGem'){
+      stage('Install'){
+        steps {
+          sh 'gem install inspec && inspec -v'
+        }
+      }
+    }
     stage('Build Base Images'){
       parallel{
         stage('opg-base-1604')                      { steps { dir("opg-base-1604"){ sh "make rebuild && make test" } } }
