@@ -1,87 +1,29 @@
 def make_command() {
-  sh """
-    source /usr/local/share/chruby/chruby.sh
-    chruby 2.5.0
-    make test
-  """
+  dir(STAGE_NAME){
+    sh """
+      source /usr/local/share/chruby/chruby.sh
+      chruby 2.5.0
+      make test
+    """
+  }
 }
 
-pipeline{
+pipeline {
   agent { label "!master" }
 
-  stages{
-    stage('Inspec Gem'){
-
-        failFast true
-
-        steps {
-          sh """
-          bash -c '
-            . /usr/local/share/chruby/chruby.sh;
-            chruby ruby-2.5.0
-            gem install inspec -q --no-document
-          '
-          """
-      }
-    }
-    stage('Build Base Images'){
-
-      failFast true
-
-      parallel{
-        stage('opg-base-1604')                      { steps { dir(STAGE_NAME){ script { make_command } } } }
-        stage('Packer AMI') { steps { script { packer("build","jenkins.json") } } }
-        stage('opg-golang-alpine')                  { steps { dir(STAGE_NAME){ sh "make test" } } }
-        stage('opg-elasticsearch-shared-data-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
-
-      }
-    }
-
-    stage('Base Dependent'){
-
-        failFast true
-
-        parallel{
-          stage('opg-nginx-1604')     { steps { dir(STAGE_NAME){ sh "make test" } } }
-          stage('opg-jre8-1604')      { steps { dir(STAGE_NAME){ sh "make test" } } }
-          stage('opg-kibana-1604')    { steps { dir(STAGE_NAME){ sh "make test" } } }
-          stage('opg-wkhtmlpdf-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
-          stage('opg-ssmtp-1604')     { steps { dir(STAGE_NAME){ sh "make test" } } }
-          stage('opg-rabbitmq-1604')  { steps { dir(STAGE_NAME){ sh "make test" } } }
-          stage('opg-mongodb-1604')   { steps { dir(STAGE_NAME){ sh "make test" } } }
+  stages {
+    stage('Lint') {
+      parallel {
+        stage('opg-base-1604') {
+          steps { { script { make_command } } }
         }
-    }
+        stage('opg-golang-alpine') {
+          steps { { script { make_command } } }
+        }
 
-    stage('Nginx Depedent'){
-
-      failFast true
-
-      parallel{
-        stage('opg-php-fpm-71-ppa-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
-        stage('opg-php-fpm-1604')        { steps { dir(STAGE_NAME){ sh "make test" } } }
-        stage('opg-nginx-router-1604')   { steps { dir(STAGE_NAME){ sh "make test" } } }
       }
     }
 
-    stage('JRE Depedent'){
-
-      failFast true
-
-      parallel{
-        stage('opg-elasticsearch5-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
-        stage('opg-jenkins2-1604')       { steps { dir(STAGE_NAME){ sh "make test" } } }
-        stage('opg-jenkins-slave-1604')  { steps { dir(STAGE_NAME){ sh "make test" } } }
-      }
-    }
-
-    stage('PHP-FPM Images'){
-
-      failFast true
-
-      parallel{
-        stage('opg-phpunit-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
-        stage('opg-phpcs-1604')   { steps { dir(STAGE_NAME){ sh "make test" } } }
-      }
-    }
   }
+
 }
