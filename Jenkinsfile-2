@@ -14,14 +14,30 @@ pipeline {
   agent { label "!master" }
 
   stages {
-    stage('Build Base Images'){
-      parallel {
-        stage('opg-base-1604'){
-          steps { script { make_command() } }
-        }
+    stage('Inspec Gem'){
 
+        failFast true
+
+        steps {
+          sh """
+          bash -c '
+            . /usr/local/share/chruby/chruby.sh;
+            chruby ruby-2.5.0
+            gem install inspec -q --no-document
+          '
+          """
       }
     }
+
+    stage('Build Base Images'){
+      parallel {
+        stage('opg-base-1604'){ steps { script { make_command() }}}
+        stage('opg-elasticsearch-shared-data-1604'){ steps { script { make_command() }}}
+        stage('opg-golang-alpine') { steps { script { make_command() }}}
+      }
+    }
+
+    
 
   }
 
