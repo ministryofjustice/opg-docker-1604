@@ -1,11 +1,6 @@
-
 def make_command(String, folder) {
-  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: githubUserPassCredentialsId, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-
-    dir("$folder"){ sh "make rebuild && make test" }
-  }
+  dir("$folder"){ sh "make rebuild && make test" }
 }
-
 
 pipeline{
   agent { label "!master" }
@@ -13,7 +8,7 @@ pipeline{
   stages{
     stage('Build Base Images'){
       parallel{
-        stage('opg-base-1604')                      { steps { script { make_command('opg-base-1604')                      }}}
+        stage('opg-base-1604')                      { steps { dir("opg-base-1604"){ sh "make rebuild && make test" } } }
         stage('opg-golang-alpine')                  { steps { script { make_command('opg-golang-alpine')                  }}}
         stage('opg-elasticsearch-shared-data-1604') { steps { script { make_command('opg-elasticsearch-shared-data-1604') }}}
       }
