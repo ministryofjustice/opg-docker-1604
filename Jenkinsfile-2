@@ -1,9 +1,11 @@
 def make_command() {
   dir(STAGE_NAME){
     sh """
-      source /usr/local/share/chruby/chruby.sh
-      chruby 2.5.0
-      make test
+      bash -c '
+        source /usr/local/share/chruby/chruby.sh
+        chruby 2.5.0
+        make test
+      '
     """
   }
 }
