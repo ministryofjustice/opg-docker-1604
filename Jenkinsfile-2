@@ -15,10 +15,14 @@ pipeline {
     stage('Lint') {
       parallel {
         stage('opg-base-1604') {
-          steps { { script { make_command } } }
+          steps {
+            script { make_command }
+          }
         }
         stage('opg-golang-alpine') {
-          steps { { script { make_command } } }
+          steps {
+            script { make_command }
+          }
         }
 
       }
