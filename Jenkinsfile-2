@@ -8,7 +8,7 @@ pipeline{
   stages{
     stage('InspecGem'){
         steps {
-          sh 'ls opt/rubies; ls ~/.rubies'
+          sh 'ls /opt/rubies; ls ~/.rubies'
       }
     }
     stage('Build Base Images'){
