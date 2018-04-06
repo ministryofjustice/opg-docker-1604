@@ -11,6 +11,9 @@ pipeline{
 
   stages{
     stage('Inspec Gem'){
+
+        failFast true
+
         steps {
           sh """
           bash -c '
@@ -22,6 +25,9 @@ pipeline{
       }
     }
     stage('Build Base Images'){
+
+      failFast true
+
       parallel{
         stage('opg-base-1604')                      { steps { dir(STAGE_NAME){ script { make_command } } } }
         stage('opg-golang-alpine')                  { steps { dir(STAGE_NAME){ sh "make test" } } }
@@ -31,6 +37,9 @@ pipeline{
     }
 
     stage('Base Dependent'){
+
+        failFast true
+
         parallel{
           stage('opg-nginx-1604')     { steps { dir(STAGE_NAME){ sh "make test" } } }
           stage('opg-jre8-1604')      { steps { dir(STAGE_NAME){ sh "make test" } } }
@@ -43,6 +52,9 @@ pipeline{
     }
 
     stage('Nginx Depedent'){
+
+      failFast true
+
       parallel{
         stage('opg-php-fpm-71-ppa-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
         stage('opg-php-fpm-1604')        { steps { dir(STAGE_NAME){ sh "make test" } } }
@@ -51,6 +63,9 @@ pipeline{
     }
 
     stage('JRE Depedent'){
+
+      failFast true
+
       parallel{
         stage('opg-elasticsearch5-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
         stage('opg-jenkins2-1604')       { steps { dir(STAGE_NAME){ sh "make test" } } }
@@ -59,6 +74,9 @@ pipeline{
     }
 
     stage('PHP-FPM Images'){
+      
+      failFast true
+
       parallel{
         stage('opg-phpunit-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
         stage('opg-phpcs-1604')   { steps { dir(STAGE_NAME){ sh "make test" } } }
