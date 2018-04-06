@@ -12,17 +12,10 @@ pipeline {
   agent { label "!master" }
 
   stages {
-    stage('Lint') {
+    stage('Build Base Images'){
       parallel {
-        stage('opg-base-1604') {
-          steps {
-            script { make_command }
-          }
-        }
-        stage('opg-golang-alpine') {
-          steps {
-            script { make_command }
-          }
+        stage('Packer Lint'){
+          steps { script { make_command() } }
         }
 
       }
