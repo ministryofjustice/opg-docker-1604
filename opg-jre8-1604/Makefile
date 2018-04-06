@@ -2,6 +2,7 @@
 
 registryUrl ?= registry.service.opg.digital
 image = opg-jre8-1604
+SEED := $(shell /bin/bash -c "echo $$RANDOM")
 
 build:
 	docker build $(no-cache) -t "$(registryUrl)/$(image)" .
@@ -11,7 +12,7 @@ rebuild:
 	docker-compose -f tests/docker-compose.yml -p test build
 
 test:
-	rand=$$(date +'%H%M%S') &&\
-	docker-compose -p "$${rand}" -f tests/docker-compose.yml up -d &&\
-	inspec exec tests -t "docker://$${rand}_basegen_1" &&\
-	docker-compose -p "$${rand}" -f tests/docker-compose.yml down
+	echo "Seed: ${SEED}"
+	docker-compose -p "${SEED}" -f tests/docker-compose.yml up -d
+	inspec exec tests -t docker://${SEED}_basegen_1
+	docker-compose -p "${SEED}" -f tests/docker-compose.yml down
