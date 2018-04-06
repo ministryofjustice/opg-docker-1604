@@ -8,7 +8,11 @@ pipeline{
   stages{
     stage('InspecGem'){
         steps {
-          sh 'ls /opt/rubies; echo $SHELL;chruby ruby-2.5.0'
+          sh """
+          ls /opt/rubies;
+          . /usr/local/share/chruby/chruby.sh;
+          chruby ruby-2.5.0
+          """
       }
     }
     stage('Build Base Images'){
