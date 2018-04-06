@@ -1,8 +1,16 @@
+def make_command {
+  sh """
+    source /usr/local/share/chruby/chruby.sh
+    chruby 2.5.0
+    make test
+  """
+}
+
 pipeline{
   agent { label "!master" }
 
   stages{
-    stage('InspecGem'){
+    stage('Inspec Gem'){
         steps {
           sh """
           bash -c '
@@ -15,7 +23,7 @@ pipeline{
     }
     stage('Build Base Images'){
       parallel{
-        stage('opg-base-1604')                      { steps { dir(STAGE_NAME){ sh "make test" } } }
+        stage('opg-base-1604')                      { steps { dir(STAGE_NAME){ script { make_command } } } }
         stage('opg-golang-alpine')                  { steps { dir(STAGE_NAME){ sh "make test" } } }
         stage('opg-elasticsearch-shared-data-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
 
