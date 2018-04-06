@@ -7,10 +7,8 @@ pipeline{
 
   stages{
     stage('InspecGem'){
-      stage('Install'){
         steps {
           sh 'gem install inspec && inspec -v'
-        }
       }
     }
     stage('Build Base Images'){
