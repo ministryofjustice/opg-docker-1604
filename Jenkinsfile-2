@@ -30,6 +30,7 @@ pipeline{
 
       parallel{
         stage('opg-base-1604')                      { steps { dir(STAGE_NAME){ script { make_command } } } }
+        stage('Packer AMI') { steps { script { packer("build","jenkins.json") } } }
         stage('opg-golang-alpine')                  { steps { dir(STAGE_NAME){ sh "make test" } } }
         stage('opg-elasticsearch-shared-data-1604') { steps { dir(STAGE_NAME){ sh "make test" } } }
 
@@ -74,7 +75,7 @@ pipeline{
     }
 
     stage('PHP-FPM Images'){
-      
+
       failFast true
 
       parallel{
