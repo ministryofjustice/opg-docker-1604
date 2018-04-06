@@ -8,7 +8,7 @@ pipeline{
   stages{
     stage('InspecGem'){
         steps {
-          sh 'chruby;which ruby; gem install inspec && inspec -v'
+          sh 'env''
       }
     }
     stage('Build Base Images'){
