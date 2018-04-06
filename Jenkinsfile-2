@@ -9,8 +9,10 @@ pipeline{
     stage('Build Base Images'){
       parallel{
         stage('opg-base-1604')                      { steps { dir("opg-base-1604"){ sh "make rebuild && make test" } } }
+        stage('opg-base-1604')                      { steps { script { make_command("opg-base-1604") } } }
         stage('opg-golang-alpine')                  { steps { script { make_command('opg-golang-alpine')                  }}}
         stage('opg-elasticsearch-shared-data-1604') { steps { script { make_command('opg-elasticsearch-shared-data-1604') }}}
+
       }
     }
 
