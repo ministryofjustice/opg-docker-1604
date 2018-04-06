@@ -9,11 +9,11 @@ pipeline{
     stage('InspecGem'){
         steps {
           sh """
-          ls /opt/rubies;
           bash -c '
             . /usr/local/share/chruby/chruby.sh;
             chruby ruby-2.5.0
             which ruby
+            gem install inspec
           '
 
           """
