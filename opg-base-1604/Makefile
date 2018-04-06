@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 .PHONY: build
 
 registryUrl ?= registry.service.opg.digital
