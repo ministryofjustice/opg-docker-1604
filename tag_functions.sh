@@ -37,11 +37,11 @@ push_image() {
   docker tag "${REGISTRY:?}/${1:?}:latest" "${REGISTRY:?}/${1:?}:${2:?}"
 
   printf "\\n\\n--- Pushing Image to Docker ---\\n"
-  docker_push "${1:?}:${2:?}"
+  docker_push "${1:?}" "${2:?}"
 
   if [[ "${BRANCH_NAME}" == "master" ]];then
     printf "\\n\\n--- On master branch so pushing latest tag ---\\n"
-    docker_push "${1:?}:latest"
+    docker_push "${1:?}" "latest"
   fi
 }
 
