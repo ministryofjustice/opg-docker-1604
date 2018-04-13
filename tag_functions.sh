@@ -73,7 +73,7 @@ to_docker_tag() {
 # $1 image name
 # $2 image tag
 docker_push() {
-  if [[ $CI == 'true' ]];then
+  if [[ $CI = "true" ]];then
     docker push "${1:?}:${2:?}"
   else
     echo "Not in CI so not pushing tag"

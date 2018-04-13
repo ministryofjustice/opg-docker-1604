@@ -1,7 +1,7 @@
 def make_command() {
   dir(STAGE_NAME){
     sh """
-      #!/bin/bash -e
+      #!/bin/bash +x
       . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
       . ../tag_functions.sh
       make build
@@ -20,7 +20,7 @@ pipeline {
         stage('Inspec Gem'){
           steps {
             sh """
-              #!/bin/bash -e
+              #!/bin/bash +x
               . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
               gem install inspec -q --no-document
             """
@@ -29,7 +29,7 @@ pipeline {
         stage('Get SemverTag'){
           steps {
             sh '''
-              #!/bin/bash
+              #!/bin/bash +x
               virtualenv venv
               . venv/bin/activate
               pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
