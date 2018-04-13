@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash +x
 
 # Use semver tag to get us a sensible git and docker tag
 # The git tag needs to be prefixed with the project name so we can find it when
@@ -73,7 +73,7 @@ to_docker_tag() {
 # $1 image name
 # $2 image tag
 docker_push() {
-  if [[ -n $CI ]];then
+  if [[ $CI == 'true' ]];then
     docker push "${1:?}:${2:?}"
   else
     echo "Not in CI so not pushing tag"
