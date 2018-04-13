@@ -1,10 +1,11 @@
 def make_command() {
-  dir(STAGE_NAME){ sh """
-    #!/bin/bash -e
-    . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
-    make build
-    make test
-    """
+  dir(STAGE_NAME){
+    sh '''
+      #!/bin/bash -e
+      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
+      make build
+      make test
+    '''
   }
 }
 
@@ -13,15 +14,22 @@ pipeline {
 
   stages {
     stage('Inspec Gem'){
-
-        failFast true
-
-        steps {
-          sh """
-            #!/bin/bash -e
-            . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
-            gem install inspec -q --no-document
-          """
+      steps {
+        sh """
+          #!/bin/bash -e
+          . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
+          gem install inspec -q --no-document
+        """
+      }
+    }
+    stage('Get SemverTag'){
+      steps {
+        sh '''
+          #!/bin/bash
+          virtualenv venv
+          . venv/bin/activate
+          pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
+        '''
       }
     }
 
