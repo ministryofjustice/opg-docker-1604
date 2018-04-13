@@ -11,8 +11,6 @@ def make_command() {
   }
 }
 
-
-
 pipeline {
   agent { label "!master" }
 

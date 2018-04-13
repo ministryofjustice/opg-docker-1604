@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash +x
 
 for i in opg-base-1604 opg-elasticsearch-shared-data-1604 opg-golang-alpine;do
   echo "Testing $i";
