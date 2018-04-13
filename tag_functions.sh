@@ -6,21 +6,20 @@
 # @args
 # $1 PROJECT
 tag_and_push_image() {
-  local STAGE
   local PREFIX
   local GIT_TAG # e.g.opg-base-0.0.1-alpha
   local DOCKER_TAG # 0.0.1-alpha
 
   git fetch --tags
   PREFIX=$(strip_1604 "${1:?}")
-  STAGE=$(stage_arg)
-  GIT_TAG=$(semvertag bump patch  \
-                             --stage "${STAGE:?}"    \
-                             --prefix "${PREFIX:?}-"
-                             # --tag
-  )
 
-  DOCKER_TAG=$(to_docker_tag "${GIT_TAG}" "${PREFIX:?}-")
+  if [[ "${BRANCH_NAME}" == "master" ]];then
+    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" )
+  else
+    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --stage "alpha" )
+  fi
+
+  DOCKER_TAG=$( to_docker_tag "${GIT_TAG}" "${PREFIX:?}-" )
   echo "Docker tag: ${DOCKER_TAG}"
   echo "Git tag: ${GIT_TAG:?}"
   push_image "${1:?}" "${DOCKER_TAG:?}"
@@ -46,17 +45,6 @@ push_image() {
   fi
 }
 
-stage_arg() {
-  local STAGE
-
-  if [[ "${BRANCH_NAME}" == "master" ]];then
-    STAGE="master"
-  else
-    STAGE="alpha"
-  fi
-  echo "${STAGE}"
-}
-
 # Semvertag doesn't like a 0 in the prefix right now
 # https://github.com/ministryofjustice/semvertag/issues/4
 # So strip 1604 from the tag
@@ -64,7 +52,7 @@ stage_arg() {
 # $1 string
 strip_1604() {
   local STR
-  STR=${1//1604/}
+  STR=${1//-1604/}
   echo "${STR:?}"
 }
 
