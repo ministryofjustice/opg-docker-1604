@@ -14,6 +14,8 @@ def make_command() {
 pipeline {
   agent { label "!master" }
 
+  environment { CI = "true" }
+
   stages {
     stage('Build Environment') {
       parallel {
