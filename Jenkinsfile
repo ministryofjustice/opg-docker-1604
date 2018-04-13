@@ -35,6 +35,7 @@ pipeline {
               virtualenv venv
               . venv/bin/activate
               pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
+              git fetch --tags # Fetch once for subsiquent stages
             '''
           }
         }

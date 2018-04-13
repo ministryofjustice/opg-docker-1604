@@ -37,7 +37,7 @@ RUN echo "Installing ConfD" &&\
     chmod a+x /usr/bin/confd &&\
     mkdir -p /etc/confd/conf.d /etc/confd/templates
 
-RUN echo "Disaling ssh access" &&\
+RUN echo "Disabling ssh access" &&\
     rm /etc/my_init.d/00_regen_ssh_host_keys.sh &&\
     rm -rf /etc/service/sshd || true &&\
     echo "Application user and location" &&\

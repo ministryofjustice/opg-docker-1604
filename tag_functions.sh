@@ -10,7 +10,6 @@ tag_and_push_image() {
   local GIT_TAG # e.g.opg-base-0.0.1-alpha
   local DOCKER_TAG # 0.0.1-alpha
 
-  git fetch --tags
   PREFIX=$(strip_1604 "${1:?}")
 
   if [[ "${BRANCH_NAME}" == "master" ]];then
