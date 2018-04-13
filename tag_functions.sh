@@ -14,9 +14,9 @@ tag_and_push_image() {
   PREFIX=$(strip_1604 "${1:?}")
 
   if [[ "${BRANCH_NAME}" == "master" ]];then
-    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" )
+    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --tag )
   else
-    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --stage "alpha" )
+    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --stage "alpha" --tag )
   fi
 
   DOCKER_TAG=$( to_docker_tag "${GIT_TAG}" "${PREFIX:?}-" )
