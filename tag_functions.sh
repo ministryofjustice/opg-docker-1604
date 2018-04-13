@@ -63,7 +63,7 @@ strip_1604() {
 to_docker_tag() {
   local STR
   STR=${1//$2/}
-  echo $STR
+  echo "$STR"
 }
 
 # Checks if we are in CI & pushes
