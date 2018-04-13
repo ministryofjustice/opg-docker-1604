@@ -3,7 +3,7 @@ def make_command() {
     sh """
       #!/bin/bash -e
       . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
-      . tag_functions.sh
+      . ../tag_functions.sh
       make build
       make test
       tag_and_push_image ${STAGE_NAME}
