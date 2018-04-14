@@ -36,6 +36,9 @@ pipeline {
               . venv/bin/activate
               pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
               git fetch --tags # Fetch once for subsiquent stages
+              # Setup Jenkins SSH User
+              git config --global user.email "opgtools@digital.justice.co.uk"
+              git config --global user.name "jenkins-moj"
             '''
           }
         }
