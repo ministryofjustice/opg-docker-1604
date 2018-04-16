@@ -25,6 +25,8 @@ read_tag() {
 
   if [[ -f semvertag.txt ]];then
     TAG=$(head -n 1 semvertag.txt)
+  elif [[ -f ../semvertag.txt ]];then
+    TAG=$(head -n 1 ../semvertag.txt)
   else
     echo "semvertag.txt not found"
   fi
