@@ -51,7 +51,7 @@ pipeline {
         #!/bin/bash +x
         . ./tag_functions.sh
         tag
-        echo read_tag
+        read_tag
         '''
       }
     }
