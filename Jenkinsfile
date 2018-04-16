@@ -41,14 +41,17 @@ pipeline {
               git config --global user.name "jenkins-moj"
             '''
           }
-          steps {
-            sh '''
-            #!/bin/bash +x
-            . ./tag_functions.sh
-            tag
-            echo read_tag
-            '''
-          }
+        }
+      } //parallel
+
+      stage('Repository Tag') {
+        steps {
+          sh '''
+          #!/bin/bash +x
+          . ./tag_functions.sh
+          tag
+          echo read_tag
+          '''
         }
       }
     }
