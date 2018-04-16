@@ -1,5 +1,13 @@
 #!/bin/bash +x
 
+build() {
+  make build
+}
+
+test() {
+  make test
+}
+
 # Use semver tag to get us a sensible git and docker tag
 # The git tag needs to be prefixed with the project name so we can find it when
 # running semvertag list --prefix
@@ -74,6 +82,9 @@ to_docker_tag() {
 docker_push() {
   if [[ $CI = "true" ]];then
     docker push "${1:?}:${2:?}"
+    echo "Last exit status: $?"
+    docker push "${1:?}:${2:?}"
+    echo "Last exit status: $?"
   else
     echo "Not in CI so not pushing tag"
   fi
