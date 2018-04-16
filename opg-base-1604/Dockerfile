@@ -26,7 +26,7 @@ RUN echo "Updating Packages" &&\
     apt-get install -y git dnsmasq unzip zip python python-pip python-setuptools wget
 
 RUN echo "Installing log aggregation and AWSCLI" &&\
-    pip install -U pip &&\
+    pip install -U pip==9.0.3 &&\
     pip install -q awscli Beaver==${BEAVER_VERSION} &&\
     mkdir -p /etc/beaver.d &&\
     chmod a+x /etc/sv/beaver/run  && ln -s /etc/sv/beaver  /etc/service/   &&\

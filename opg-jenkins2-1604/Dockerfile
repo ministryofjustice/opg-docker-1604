@@ -30,7 +30,7 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - &&\
                       ttf-dejavu zip &&\
     apt-get clean &&\
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* &&\
-    pip install -U pip &&\
+    pip install -U pip==9.0.3 &&\
     pip install backports.ssl-match-hostname &&\
     pip install docker-compose virtualenv git+https://github.com/ministryofjustice/semvertag.git
 
