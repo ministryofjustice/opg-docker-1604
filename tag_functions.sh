@@ -23,7 +23,7 @@ tag_and_push_image() {
   if [[ "${BRANCH_NAME}" == "master" ]];then
     GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --tag )
   else
-    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --stage "alpha" --tag )
+    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --stage "alpha" )
   fi
 
   DOCKER_TAG=$( to_docker_tag "${GIT_TAG}" "${PREFIX:?}-" )
@@ -81,8 +81,6 @@ to_docker_tag() {
 # $2 image tag
 docker_push() {
   if [[ $CI = "true" ]];then
-    docker push "${1:?}:${2:?}"
-    echo "Last exit status: $?"
     docker push "${1:?}:${2:?}"
     echo "Last exit status: $?"
   else

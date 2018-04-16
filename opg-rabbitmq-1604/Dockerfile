@@ -1,4 +1,4 @@
-FROM registry.service.opg.digital/opg-base-1604
+FROM registry.service.opg.digital/opg-base-1604:0.0.2-alpha
 
 ENV RABBITMQ_LOGS=- \
     RABBITMQ_SASL_LOGS=-
