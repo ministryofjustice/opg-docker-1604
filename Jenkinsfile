@@ -44,16 +44,16 @@ pipeline {
         }
       } //parallel
 
-      stage('Repository Tag') {
-        steps {
-          sh '''
-          #!/bin/bash +x
-          . ./tag_functions.sh
-          tag
-          echo read_tag
-          '''
-        }
-      }
+      // stage('Repository Tag') {
+      //   steps {
+      //     sh '''
+      //     #!/bin/bash +x
+      //     . ./tag_functions.sh
+      //     tag
+      //     echo read_tag
+      //     '''
+      //   }
+      // }
     }
 
     stage('Build Base Images'){
