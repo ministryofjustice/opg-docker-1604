@@ -30,26 +30,24 @@ pipeline {
         }
         stage('Tag'){
           steps {
-            step {
-              sh '''
-                #!/bin/bash +x
-                virtualenv venv
-                . venv/bin/activate
-                pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
-                git fetch --tags # Fetch once for subsiquent stages
-                # Setup Jenkins SSH User
-                git config --global user.email "opgtools@digital.justice.co.uk"
-                git config --global user.name "jenkins-moj"
-              '''
-            }
-            step {
-              sh '''
+            sh '''
               #!/bin/bash +x
-              . ./tag_functions.sh
-              tag
-              echo read_tag
-              '''
-            }
+              virtualenv venv
+              . venv/bin/activate
+              pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
+              git fetch --tags # Fetch once for subsiquent stages
+              # Setup Jenkins SSH User
+              git config --global user.email "opgtools@digital.justice.co.uk"
+              git config --global user.name "jenkins-moj"
+            '''
+          }
+          steps {
+            sh '''
+            #!/bin/bash +x
+            . ./tag_functions.sh
+            tag
+            echo read_tag
+            '''
           }
         }
       }
