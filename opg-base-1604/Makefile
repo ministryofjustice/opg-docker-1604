@@ -18,6 +18,3 @@ test:
 
 clean:
 	docker-compose -p "${SEED}" -f tests/docker-compose.yml down
-
-pull:
-	docker-compose -f tests/docker-compose.yml pull

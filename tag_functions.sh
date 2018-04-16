@@ -8,6 +8,30 @@ test() {
   make test
 }
 
+tag() {
+  local TAG
+
+  if [[ "${BRANCH_NAME}" == "master" ]];then
+    TAG=$( semvertag bump patch --tag )
+  else
+    TAG=$( semvertag bump patch --tag --stage "alpha" )
+  fi
+  echo $TAG > semvertag.txt
+  cat semvertag.txt
+}
+
+read_tag() {
+  local TAG
+
+  if [[ -f semvertag.txt ]];then
+    TAG=$(head -n 1 semvertag.txt)
+  else
+    echo "semvertag.txt not found"
+  fi
+
+  echo $TAG
+}
+
 # Use semver tag to get us a sensible git and docker tag
 # The git tag needs to be prefixed with the project name so we can find it when
 # running semvertag list --prefix
@@ -15,21 +39,26 @@ test() {
 # $1 PROJECT
 tag_and_push_image() {
   local PREFIX
-  local GIT_TAG # e.g.opg-base-0.0.1-alpha
-  local DOCKER_TAG # 0.0.1-alpha
+  local TAG # e.g. 0.0.1-alpha
 
-  PREFIX=$(strip_1604 "${1:?}")
+  TAG=$(read_tag)
+  echo "\nTag: ${TAG:?}"
+  push_image "${1:?}" "${TAG:?}"
+}
 
-  if [[ "${BRANCH_NAME}" == "master" ]];then
-    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --tag )
+# Checks if we are in CI & pushes
+# If we're not push echo a polite message
+# This stops accidental pushing when testing locally
+# @args
+# $1 image name
+# $2 image tag
+docker_push() {
+  if [[ $CI = "true" ]];then
+    docker push "${1:?}:${2:?}"
+    echo "Last exit status: $?"
   else
-    GIT_TAG=$( semvertag bump patch --prefix "${PREFIX:?}-" --stage "alpha" )
+    echo "Not in CI so not pushing tag"
   fi
-
-  DOCKER_TAG=$( to_docker_tag "${GIT_TAG}" "${PREFIX:?}-" )
-  echo "Docker tag: ${DOCKER_TAG}"
-  echo "Git tag: ${GIT_TAG:?}"
-  push_image "${1:?}" "${DOCKER_TAG:?}"
 }
 
 # Push to our Docker registry
@@ -72,18 +101,3 @@ to_docker_tag() {
   STR=${1//$2/}
   echo "$STR"
 }
-
-# Checks if we are in CI & pushes
-# If we're not push echo a polite message
-# This stops accidental pushing when testing locally
-# @args
-# $1 image name
-# $2 image tag
-docker_push() {
-  if [[ $CI = "true" ]];then
-    docker push "${1:?}:${2:?}"
-    echo "Last exit status: $?"
-  else
-    echo "Not in CI so not pushing tag"
-  fi
-  }
