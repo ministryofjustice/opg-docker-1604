@@ -1,4 +1,4 @@
-FROM registry.service.opg.digital/opg-base-1604:0.0.2-alpha
+FROM registry.service.opg.digital/opg-base-1604
 
 # Download and install wkhtmltopdf
 ENV MAJOR_VERSION=0.12 \

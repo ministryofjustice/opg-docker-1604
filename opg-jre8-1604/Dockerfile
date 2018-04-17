@@ -1,4 +1,4 @@
-FROM registry.service.opg.digital/opg-base-1604:0.0.2-alpha
+FROM registry.service.opg.digital/opg-base-1604
 
 ENV JAVA_MAJOR_VERSION="8" \
     JAVA_UPDATE_VERSION="161" \
