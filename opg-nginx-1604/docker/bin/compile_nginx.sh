@@ -1,8 +1,10 @@
 #!/bin/bash
+set -e
 
+apt update
 apt install -y libpcre3-dev zlib1g-dev libssl-dev libossp-uuid-dev uuid build-essential
 
-NGINX_VERSION="1.11.13"
+NGINX_VERSION="1.13.7"
 
 useradd -r nginx
 mkdir -p /var/lib/nginx && chown nginx:nginx /var/lib/nginx

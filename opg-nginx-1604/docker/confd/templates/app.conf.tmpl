@@ -12,6 +12,22 @@ server {
     listen     443 ssl;
     server_name {{ getv "/opg/nginx/server/names" }};
 
+    {{ if exists "/opg/nginx/rewrite/www" }}
+    if ($host ~* www\.(.*)) {
+        set $host_without_www $1;
+        rewrite ^(.*)$ $scheme://$host_without_www$1 permanent;
+    }
+    {{ end }}
+    {{ if exists "/opg/nginx/rewrite/nonwww" }}
+    if ($host !~* ^www\.) {
+        rewrite ^(.*)$ $scheme://www.$host$1 permanent;
+    }
+    {{ end }}
+
+    {{ if exists "/opg/nginx/redirect/domain" }}
+    return 301 https://{{ getv "/opg/nginx/redirect/domain" }};
+    {{ end }}
+
     rewrite_log  on;
     access_log  /var/log/app/nginx.access.json logstash_json;
     error_log   /var/log/app/nginx.error.log error;

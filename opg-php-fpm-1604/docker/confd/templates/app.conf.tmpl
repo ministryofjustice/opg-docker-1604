@@ -13,6 +13,28 @@ server {
     {{ if exists "/opg/nginx/server/names" }}
     server_name {{ getv "/opg/nginx/server/names" }};
     {{ end }}
+
+    {{ if exists "/opg/nginx/rewrite/www" }}
+    if ($host ~* www\.(.*)) {
+        set $host_without_www $1;
+        rewrite ^ $scheme://$host_without_www permanent;
+    }
+    {{ end }}
+    {{ if exists "/opg/nginx/rewrite/nonwww" }}
+    if ($host !~* ^www\.) {
+        rewrite ^(.*)$ $scheme://www.$host$1 permanent;
+    }
+    {{ end }}
+    {{ if exists "/opg/nginx/server/ssl/protocols" }}
+    ssl_protocols {{ getv "/opg/nginx/server/ssl/protocols" }};
+    {{ else }}
+    ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
+    {{ end }}
+    {{ if exists "/opg/nginx/server/ssl/ciphers" }}
+    ssl_ciphers {{ getv "/opg/nginx/server/ssl/ciphers" }};
+    {{ else }}
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    {{ end }}
     rewrite_log  on;
     access_log  /var/log/app/nginx.access.json logstash_json;
     error_log   /var/log/app/nginx.error.log error;
@@ -37,7 +59,12 @@ server {
     }
 
     # Add HTTP Strict Transport Security header - required for .service.gov.uk domains
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; ";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
+    # Prevent clickjacking
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options nosniff;
+
     # serve static files directly
 
 # Defaults to index.html if OPG_NGINX_INDEX isn't set
