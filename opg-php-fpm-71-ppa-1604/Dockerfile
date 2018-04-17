@@ -4,7 +4,6 @@ ADD  docker/confd /etc/confd
 ADD  docker/logrotate.d/app /etc/logrotate.d/app
 ADD  docker/my_init.d /etc/my_init.d
 ADD  docker/nginx /etc/nginx
-ADD  docker/service/php-fpm-stats /etc/sv/php-fpm-stats
 ADD  docker/service/php-fpm /etc/sv/php-fpm
 
 ENV  STATSD_HOST monitoring
@@ -62,10 +61,5 @@ RUN apt-get update -y && \
     rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php && \
     chmod a+x /etc/sv/php-fpm/run && \
     ln -s /etc/sv/php-fpm /etc/service/ && \
-# Install php-fpm-stats-collector
-    pip install schedule statsd requests && \
-    curl -s https://raw.githubusercontent.com/ministryofjustice/php-fpm-stats-collector/master/php-fpm-stats-collector.py > /usr/local/bin/php-fpm-stats-collector.py && \
-    chmod a+x /usr/local/bin/php-fpm-stats-collector.py &&\
-    chmod a+x /etc/sv/php-fpm-stats/run && ln -s /etc/sv/php-fpm-stats /etc/service/ && \
 # Clean up
     rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
