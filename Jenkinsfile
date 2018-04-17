@@ -93,6 +93,9 @@ pipeline {
     }
   }
 
-  post { always { sh "bash cleanup.sh" } }
+  post {
+    always { sh "bash cleanup.sh" }
+    failure { echo 'I failed :(' }
+  }
 
 }
