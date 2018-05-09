@@ -5,4 +5,4 @@ image = opg-nginx-router-1604
 
 build:
 	docker build $(no-cache) -t "$(registryUrl)/$(image)" .
-	docker tag "$(registryUrl)/$(image)" "$(registryUrl)/$(image):$(newtag)"
+	# docker tag "$(registryUrl)/$(image)" "$(registryUrl)/$(image):$(newtag)"

@@ -5,4 +5,4 @@ image = opg-phpunit-1604
 
 build:
 	docker build $(no-cache) -t "$(registryUrl)/$(image)" .
-	docker tag -f "$(registryUrl)/$(image)" "$(registryUrl)/$(image):$(newtag)"
+	# docker tag -f "$(registryUrl)/$(image)" "$(registryUrl)/$(image):$(newtag)"
