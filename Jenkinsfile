@@ -64,7 +64,7 @@ pipeline {
       }
     }
 
-    stage('Nginx Depedent'){
+    stage('Nginx Dependent'){
       parallel {
         stage('opg-nginx-1604')     { steps { script { make_command() }}}
         stage('opg-jre8-1604')      { steps { script { make_command() }}}
