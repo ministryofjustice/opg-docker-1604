@@ -17,7 +17,7 @@ pipeline {
   environment { CI = "true" }
 
   stages {
-    stage('Build Environment') {
+    stage('Setup Build Environment') {
       parallel {
         stage('Inspec Gem'){
           steps {
@@ -28,7 +28,7 @@ pipeline {
             """
           }
         }
-        stage('Tag'){
+        stage('SemverTag'){
           steps {
             sh '''
               #!/bin/bash +x
@@ -92,7 +92,6 @@ pipeline {
         stage('opg-phpunit-1604') { steps { script { make_command() }}}
         stage('opg-phpcs-1604')   { steps { script { make_command() }}}
       }
-
     }
   }
 
