@@ -17,7 +17,7 @@ pipeline {
   environment { CI = "true" }
 
   stages {
-    stage('Build Environment') {
+    stage('Setup Build Environment') {
       parallel {
         stage('Inspec Gem'){
           steps {
@@ -28,7 +28,7 @@ pipeline {
             """
           }
         }
-        stage('Tag'){
+        stage('SemverTag'){
           steps {
             sh '''
               #!/bin/bash +x
@@ -76,17 +76,11 @@ pipeline {
       }
     }
 
-    stage('Nginx Dependent'){
+    stage('Nginx or JRE Dependent'){
       parallel {
         stage('opg-php-fpm-71-ppa-1604') { steps { script { make_command() }}}
         stage('opg-php-fpm-1604')        { steps { script { make_command() }}}
         stage('opg-nginx-router-1604')   { steps { script { make_command() }}}
-
-      }
-    }
-
-    stage('JRE Depedent'){
-      parallel{
         stage('opg-elasticsearch5-1604') { steps { script { make_command() }}}
         stage('opg-jenkins2-1604')       { steps { script { make_command() }}}
         stage('opg-jenkins-slave-1604')  { steps { script { make_command() }}}
@@ -98,7 +92,6 @@ pipeline {
         stage('opg-phpunit-1604') { steps { script { make_command() }}}
         stage('opg-phpcs-1604')   { steps { script { make_command() }}}
       }
-
     }
   }
 
