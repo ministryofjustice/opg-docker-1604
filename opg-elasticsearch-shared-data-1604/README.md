@@ -1,10 +1,8 @@
-OPG elasticsearch-shared-data docker image
-==========================================
+# OPG elasticsearch-shared-data docker image
 
 A simple way to get various dashboards/templates and indexes into elasticsearch
 
-Dockerfile Environment Variables
---------------------------------
+## Dockerfile Environment Variables
 
 ### Software versions (used during build only)
 
@@ -14,17 +12,16 @@ None
 
 ### Elasticsearch Settings (used by confd during startup)
 
-The following variables are used in the configuration of `elasticsearch.yml` during container startup and their
-equivalent elasticsearch configuration variable is show alongside:
+The following variables are used in the configuration of `elasticsearch.yml` during container startup and their equivalent elasticsearch configuration variable is show alongside:
 
 ```
 none
 ```
 
-Sample docker-compose entry
----------------------------
+## Sample docker-compose entry
 
 New variables for elasticsearch
+
 ```
   environment:
     SHARED_DATA_BASE: # Base path to where our files are being installed from
@@ -36,20 +33,16 @@ New variables for elasticsearch
     - #Our elasticsearch-shared-data dockerfile image name
 ```
 
-Note the special formatting of `SHARED_DATA_PATHS`, this is parsed to a 
-python list so the formatting needs to match one that python will understand
+Note the special formatting of `SHARED_DATA_PATHS`, this is parsed to a python list so the formatting needs to match one that python will understand
 
 ie:
+
 ```
 ['path', 'path', 'path']
 ```
 
 [Example docker-compose](docker-compose.yml)
 
+## Index-patterns
 
-Index-patterns
---------------
-
-Due to the generic nature of the import script any index-patterns need to have their title field named to reflect the index name,
-this is due to the way we need to import the patterns from the json files
-
+Due to the generic nature of the import script any index-patterns need to have their title field named to reflect the index name, this is due to the way we need to import the patterns from the json files
