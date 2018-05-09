@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  basegen:
+    build: ..
+    image: registry.service.opg.digital/opg-elasticsearch-shared-data-1604
+    command: tail -F /var/log/syslog

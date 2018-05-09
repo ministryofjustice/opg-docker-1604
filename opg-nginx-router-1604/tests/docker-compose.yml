@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  basegen:
+    build: ..
+    image: registry.service.opg.digital/opg-nginx-router-1604
