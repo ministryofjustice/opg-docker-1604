@@ -49,7 +49,8 @@ pipeline {
       steps {
         sh '''
         #!/bin/bash +x
-        . ../tag_functions.sh
+        ls
+        . ./tag_functions.sh
         tag
         read_tag
         '''
