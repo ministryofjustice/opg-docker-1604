@@ -56,7 +56,7 @@ pipeline {
       }
     }
 
-    stage('Build Base Images'){
+    stage('Base'){
       parallel {
         stage('opg-base-1604'){ steps { script { make_command() }}}
         stage('opg-elasticsearch-shared-data-1604'){ steps { script { make_command() }}}
@@ -93,7 +93,7 @@ pipeline {
       }
     }
 
-    stage('PHP-FPM Dependent Images'){
+    stage('PHP-FPM Dependent'){
       parallel{
         stage('opg-phpunit-1604') { steps { script { make_command() }}}
         stage('opg-phpcs-1604')   { steps { script { make_command() }}}
