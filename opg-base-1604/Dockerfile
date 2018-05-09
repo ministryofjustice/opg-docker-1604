@@ -23,9 +23,8 @@ RUN locale-gen en_GB en_GB.UTF-8 &&\
 
 RUN echo "Updating Packages" &&\
     apt-get update -qq &&\
-    apt-get install -y git dnsmasq unzip zip python python-pip python-setuptools wget
-
-RUN echo "Installing log aggregation and AWSCLI" &&\
+    apt-get install -y git dnsmasq unzip zip python python-pip python-setuptools wget &&\
+    echo "Installing log aggregation and AWSCLI" &&\
     pip install -U pip==9.0.3 &&\
     pip install -q awscli Beaver==${BEAVER_VERSION} &&\
     mkdir -p /etc/beaver.d &&\
@@ -35,9 +34,8 @@ RUN echo "Installing log aggregation and AWSCLI" &&\
 RUN echo "Installing ConfD" &&\
     curl -o /usr/bin/confd -SL "https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" &&\
     chmod a+x /usr/bin/confd &&\
-    mkdir -p /etc/confd/conf.d /etc/confd/templates
-
-RUN echo "Disabling ssh access" &&\
+    mkdir -p /etc/confd/conf.d /etc/confd/templates &&\
+    echo "Disabling ssh access" &&\
     rm /etc/my_init.d/00_regen_ssh_host_keys.sh &&\
     rm -rf /etc/service/sshd || true &&\
     echo "Application user and location" &&\

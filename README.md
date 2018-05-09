@@ -1,39 +1,14 @@
-# opg-docker-1604 
-Usage
----
-To run a build run 
+# Building
 
-```
-make
-```
-
-By default this will use the regitry URL registry.service.opg.digital.  To overwrite use
-
-```
-make registryUrl="<your registry url>"
-```
+`make build && make test`
 
 If using authentication, ensure the docker config is correctly configured to support this.
 
-Q&A
----
+# Testing
 
-Why does every service creates /var/log structure at runtime?
+Each service/folder has a directory called test that contains
 
-I't quite common that developer will run the container and mount /var/log
-So make sure that every service started will pre-create its log directory structure on start time.
-Instead of relying on RUN directives to do so.
+- inspec tests
+- docker-compose setup for inspec to run against a service.
 
-
-
-How to run application as specific user? Shall I use `su foo -c "ls"`?
-
-It's recommended to use gosu.
-i.e. `gosu memcache /usr/bin/memcached`
-
-
-prerequisites
--------------
-- docker
-- make
-- semvertag (https://github.com/ministryofjustice/semvertag)
+Docker-compose is used to start a service so we can run inspec against a running container.
