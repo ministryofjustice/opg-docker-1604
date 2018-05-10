@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  basegen:
+    build: ..
+    image: registry.service.opg.digital/opg-golang-alpine
+    command: tail -F /var/log/syslog
