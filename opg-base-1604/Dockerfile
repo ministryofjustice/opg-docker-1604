@@ -26,6 +26,8 @@ RUN echo "Updating Packages" &&\
     apt-get install -y dos2unix \
                        git \
                        python-setuptools \
+                       python \
+                       python-pip \
                        wget \
                        dnsmasq \
                        unzip \
