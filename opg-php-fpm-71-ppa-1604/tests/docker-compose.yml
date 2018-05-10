@@ -3,4 +3,4 @@ version: '3'
 services:
   basegen:
     build: ..
-    image: registry.service.opg.digital/opg-phpfpm71-ppa-1604
+    image: registry.service.opg.digital/opg-php-fpm-71-ppa-1604
