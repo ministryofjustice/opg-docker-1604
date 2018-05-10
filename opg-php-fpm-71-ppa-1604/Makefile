@@ -1,9 +1,20 @@
 .PHONY: build
+SHELL = '/bin/bash'
 
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+image := $(current_dir)
 registryUrl ?= registry.service.opg.digital
-
-image = opg-php-fpm-71-ppa-1604
+SEED := $(shell /bin/bash -c "echo $$RANDOM")
 
 build:
-	docker build $(no-cache) -t "$(registryUrl)/$(image)" .
-	# docker tag  "$(registryUrl)/$(image)" "$(registryUrl)/$(image):$(newtag)"
+	docker-compose -f tests/docker-compose.yml build
+
+test:
+	echo "Seed: ${SEED}"
+	docker-compose -p "${SEED}" -f tests/docker-compose.yml up -d
+	inspec exec tests -t docker://${SEED}_basegen_1
+	docker-compose -p "${SEED}" -f tests/docker-compose.yml down
+
+clean:
+	docker-compose -p "${SEED}" -f tests/docker-compose.yml down
