@@ -35,7 +35,8 @@ ARG PHP_PACKAGES="mongodb-clients \
                   php7.1-mcrypt \
                   php7.1-mongo \
                   php7.1-pgsql \
-                  php7.1-xml"
+                  php7.1-xml \
+                  sudo"
 
 
 RUN apt-get update -y && \
