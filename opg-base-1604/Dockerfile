@@ -23,7 +23,7 @@ RUN locale-gen en_GB en_GB.UTF-8 &&\
 
 RUN echo "Updating Packages" &&\
     apt-get update -qq &&\
-    apt-get install -y git dnsmasq unzip zip python python-pip python-setuptools wget &&\
+    apt-get install -y git dnsmasq unzip zip python python-pip python-setuptools wget sudo &&\
     echo "Installing log aggregation and AWSCLI" &&\
     pip install -U pip==9.0.3 &&\
     pip install -q awscli Beaver==${BEAVER_VERSION} &&\
