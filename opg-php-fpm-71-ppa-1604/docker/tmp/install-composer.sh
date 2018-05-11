@@ -14,6 +14,6 @@ then
 fi
 
 php composer-setup.php --install-dir=/usr/bin --filename=composer
-#RESULT=$?
+RESULT=$?
 rm composer-setup.php
-#exit $RESULT
+exit $RESULT
