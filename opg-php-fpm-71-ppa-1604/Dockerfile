@@ -55,5 +55,4 @@ RUN echo "Reconfiguring XDebug" &&\
     chmod a+x /tmp/install-composer.sh &&\
     . /tmp/install-composer.sh &&\
     echo "Clean-up" &&\
-    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/* &&\
-    echo "RUN's completed"
+    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
