@@ -43,8 +43,7 @@ RUN echo "Adding PHP7.1 PPA" &&\
     chmod a+x /etc/my_init.d/* &&\
     mkdir -p /data/session
 
-RUN echo "Installing Composer & reconfiguring XDebug" &&\
-    . /tmp/install-composer.sh &&\
+RUN echo "Reconfiguring XDebug" &&\
     phpdismod -v 7.1 xdebug &&\
     echo "xdebug.remote_enable=on\nxdebug.remote_port=9000\nxdebug.remote_host=10.254.254.254" \
          >> /etc/php/7.1/mods-available/xdebug.ini &&\
@@ -52,4 +51,9 @@ RUN echo "Installing Composer & reconfiguring XDebug" &&\
     rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php &&\
     chmod a+x /etc/sv/php-fpm/run &&\
     ln -s /etc/sv/php-fpm /etc/service/ &&\
-    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
+    echo "Installing Composer" &&\
+    chmod a+x /tmp/install-composer.sh &&\
+    . /tmp/install-composer.sh &&\
+    echo "Clean-up" &&\
+    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/* &&\
+    echo "RUN's completed"
