@@ -91,6 +91,7 @@ pipeline {
       parallel{
         stage('opg-phpunit-1604') { steps { script { make_command() }}}
         stage('opg-phpcs-1604')   { steps { script { make_command() }}}
+        stage('opg-wordpress-1604')   { steps { script { make_command() }}}
       }
     }
   }
