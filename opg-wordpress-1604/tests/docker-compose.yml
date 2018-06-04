@@ -11,11 +11,11 @@ services:
         - MYSQL_USER=wordpress
         - MYSQL_PASSWORD=wordpress
 
-
-   wordpress:
+   basegen:
      depends_on:
        - db
-     build: .
+     build: ..
+     image: registry.service.opg.digital/opg-wordpress-1604
      ports:
        - "443:443"
        - "80:80"
