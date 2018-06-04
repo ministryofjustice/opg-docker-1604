@@ -20,16 +20,14 @@ RUN cd /tmp && \
     mv wordpress/* /data/. && \
     rm -rf wordpress latest-en_GB.tar.gz
 
-# Add wordpress configuration templates
-ADD docker/confd /etc/confd
-
 USER root
 
 # Remove files included from php-fpm container
 RUN rm -rf /app/* && \
     ln -s /data /app/public
 
-ADD  docker/my_init.d /etc/my_init.d
+# Add wordpress configuration templates
+COPY docker/. /
 RUN  chmod a+x /etc/my_init.d/*
 
 ENV OPG_SERVICE wordpress
