@@ -28,6 +28,5 @@ RUN rm -rf /app/* && \
 
 # Add wordpress configuration templates
 COPY docker/. /
-RUN  chmod a+x /etc/my_init.d/*
 
 ENV OPG_SERVICE wordpress
