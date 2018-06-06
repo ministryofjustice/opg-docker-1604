@@ -14,6 +14,12 @@ server {
     server_name {{ getv "/opg/nginx/server/names" }};
     {{ end }}
 
+    {{ if exists "/opg/nginx/client/max/body/size" }}
+    # Set a custom POST size
+    client_max_body_size {{ getv "/opg/nginx/client/max/body/size" }};
+    client_body_timeout {{ getv "/opg/nginx/client/body/timeout" "60s" }};
+    {{ end }}
+
     {{ if exists "/opg/nginx/rewrite/www" }}
     if ($host ~* www\.(.*)) {
         set $host_without_www $1;
