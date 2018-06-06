@@ -1,0 +1,8 @@
+name: OPG Wordpress 1604
+title: OPG Wordpress 1604
+maintainer: OPG WebOps
+copyright: Copyright (c) 2018 Crown Copyright (Ministry of Justice)
+copyright_email: opgteam@digital.justice.gov.uk
+license: MIT
+summary: An InSpec Compliance Profile for Wordpress 1604
+version: 0.1.0
