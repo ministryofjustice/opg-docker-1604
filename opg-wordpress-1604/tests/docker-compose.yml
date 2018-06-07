@@ -36,3 +36,4 @@ services:
        - OPG_NGINX_SERVER_NAMES=localhost wordpress 127.0.0.1
        - OPG_NGINX_SSL_FORCE_REDIRECT=True
        - OPG_NGINX_CLIENT_MAX_BODY_SIZE=64M
+       - OPG_NGINX_X_FRAME_OPTIONS=live.sirius-opg.uk
