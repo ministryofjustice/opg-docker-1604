@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+   db:
+     image: mysql:5.7
+     environment:
+        - MYSQL_ROOT_PASSWORD=somewordpress
+        - MYSQL_DATABASE=wordpress
+        - MYSQL_USER=wordpress
+        - MYSQL_PASSWORD=wordpress
+
+   basegen:
+     depends_on:
+       - db
+     build: ..
+     image: registry.service.opg.digital/opg-wordpress-1604
+     volumes:
+      - /data/wp-content/uploads
+      - /data/wp-content/themes
+      - /data/wp-content/plugins
+     environment:
+       - WORDPRESS_DATABASE_PORT=3306
+       - WORDPRESS_AUTH_SECURE_AUTH_SALT=WORDPRESS_AUTH_SECURE_AUTH_SALT
+       - WORDPRESS_AUTH_AUTH_SALT=WORDPRESS_AUTH_AUTH_SALT
+       - WORDPRESS_DATABASE_USER=wordpress
+       - WORDPRESS_DATABASE_DATABASE=wordpress
+       - WORDPRESS_DATABASE_CHARSET=utf8
+       - WORDPRESS_DATABASE_HOST=db
+       - WORDPRESS_AUTH_AUTH_KEY=WORDPRESS_AUTH_AUTH_KEY
+       - WORDPRESS_AUTH_NONCE_SALT=WORDPRESS_AUTH_NONCE_SALT
+       - WORDPRESS_AUTH_LOGGED_IN_KEY=WORDPRESS_AUTH_LOGGED_IN_KEY
+       - WORDPRESS_AUTH_NONCE_KEY=WORDPRESS_AUTH_NONCE_KEY
+       - WORDPRESS_AUTH_SECURE_AUTH_KEY=WORDPRESS_AUTH_SECURE_AUTH_KEY
+       - WORDPRESS_DATABASE_PASSWORD=wordpress
+       - WORDPRESS_AUTH_LOGGED_IN_SALT=WORDPRESS_AUTH_LOGGED_IN_SALT
+       - OPG_NGINX_SERVER_NAMES=localhost wordpress 127.0.0.1
+       - OPG_NGINX_SSL_FORCE_REDIRECT=True
+       - OPG_NGINX_CLIENT_MAX_BODY_SIZE=64M
+       - OPG_NGINX_X_FRAME_OPTIONS_REMOVE=True
