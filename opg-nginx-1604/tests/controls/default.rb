@@ -43,6 +43,7 @@ control 'Nginx logs correctly' do
   end
   describe file("/var/log/app/nginx.access.json") do
     its(:content) { should match /"uri": "\/myquerypath"/ }
+    its(:content) { should match /"request_path": "\/myquerypath"/ }
     its(:content) { should match /"query_string": "myquerystring"/ }
   end
 end
