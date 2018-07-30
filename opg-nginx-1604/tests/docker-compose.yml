@@ -4,3 +4,5 @@ services:
   basegen:
     build: ..
     image: registry.service.opg.digital/opg-nginx-1604
+    environment:
+      - OPG_NGINX_SERVER_NAMES=appservername
