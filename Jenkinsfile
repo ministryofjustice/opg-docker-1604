@@ -12,7 +12,7 @@ def make_command() {
 }
 
 pipeline {
-  agent { label "!master" }
+  agent { label "opg_sirius_slave" }
 
   environment { CI = "true" }
 

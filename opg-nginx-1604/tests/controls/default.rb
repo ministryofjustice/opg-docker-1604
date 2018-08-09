@@ -20,8 +20,8 @@ control 'Nginx Configured Correctly' do
   impact 1
   title 'Nginx Configured'
   desc 'Nginx should be configured correctly'
-  describe http('https://localhost', 
-                 ssl_verify: false, 
+  describe http('https://localhost',
+                 ssl_verify: false,
                  headers: {'Host' => 'appservername'}) do
     its('status') { should cmp 200 }
     its('body') { should match 'Hello World from opguk/nginx' }
@@ -38,12 +38,13 @@ control 'Nginx logs correctly' do
   # app severname will not log for static requests so no logs will be produced.
   # Workaround by sending to default host which drops connection but does
   # add 444 request to logs.
-  describe command('curl -k "https://localhost/myquerypath?myquerystring"') do
+  describe command('curl -k "https://localhost/myquerypath?myquerystring" -H "X-Sirius-ZF-Matched-Route-Name: SomeRouteValue"') do
     its('exit_status') { should eq 52}
   end
   describe file("/var/log/app/nginx.access.json") do
     its(:content) { should match /"uri": "\/myquerypath"/ }
     its(:content) { should match /"request_path": "\/myquerypath"/ }
     its(:content) { should match /"query_string": "myquerystring"/ }
+    its(:content) { should match /"zf_matched_route_name": "SomeRouteValue"/ }
   end
 end
