@@ -36,7 +36,8 @@ RUN echo "Adding PHP7.1 PPA" &&\
                        php7.1-mcrypt \
                        php7.1-mongo \
                        php7.1-pgsql \
-                       php7.1-xml &&\
+                       php7.1-xml \
+                       php7.1-soap &&\
     apt-get clean && apt-get -y autoremove &&\
     update-alternatives --set php /usr/bin/php7.1 &&\
     echo "Making sure scripts are executable" &&\
