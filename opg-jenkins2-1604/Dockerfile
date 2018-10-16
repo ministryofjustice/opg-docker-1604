@@ -108,16 +108,16 @@ COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 ### END ###
 
 # Required minimum plugins. Execute the following code in jenkins script console for the list.
-# def plugins = Jenkins.instance.pluginManager.plugins.sort(false)
-# plugins.each{
-#   plugin ->
-#   if (plugins.last() == plugin) {
-#     delimiter = ""
-#   } else {
-#     delimiter = "\\"
-#   }
-#   println ("${plugin.getShortName()}:${plugin.getVersion()} ${delimiter}")
-# }
+def plugins = Jenkins.instance.pluginManager.plugins.sort(false)
+plugins.each{
+  plugin ->
+  if (plugins.last() == plugin) {
+    delimiter = ""
+  } else {
+    delimiter = "\\"
+  }
+  println ("${plugin.getShortName()}:${plugin.getVersion()} ${delimiter}")
+}
 
 RUN /usr/local/bin/install-plugins.sh \
 ace-editor:1.1 \
@@ -128,7 +128,7 @@ antisamy-markup-formatter:1.5 \
 apache-httpcomponents-client-4-api:4.5.5-3.0 \
 authentication-tokens:1.3 \
 aws-credentials:1.23 \
-aws-java-sdk:1.11.341 \
+aws-java-sdk:1.11.403 \
 blueocean:1.9.0 \
 blueocean-autofavorite:1.2.2 \
 blueocean-bitbucket-pipeline:1.9.0 \
@@ -150,17 +150,17 @@ blueocean-pipeline-scm-api:1.9.0 \
 blueocean-rest:1.9.0 \
 blueocean-rest-impl:1.9.0 \
 blueocean-web:1.9.0 \
-bouncycastle-api:2.16.3 \
+bouncycastle-api:2.17 \
 branch-api:2.0.20 \
 checkstyle:3.50 \
 cloudbees-bitbucket-branch-source:2.2.12 \
-cloudbees-folder:6.5.1 \
-clover:4.9.0 \
+cloudbees-folder:6.6 \
+clover:4.10.0 \
 command-launcher:1.2 \
-config-file-provider:2.18 \
-confluence-publisher:2.0.1 \
-copyartifact:1.39.1 \
-credentials:2.1.17 \
+config-file-provider:3.3 \
+confluence-publisher:2.0.3 \
+copyartifact:1.41 \
+credentials:2.1.18 \
 credentials-binding:1.16 \
 custom-tools-plugin:0.5 \
 display-url-api:2.2.0 \
@@ -168,45 +168,45 @@ docker-build-step:2.0 \
 docker-commons:1.13 \
 docker-workflow:1.17 \
 durable-task:1.26 \
-ec2:1.39 \
-envinject:2.1.5 \
+ec2:1.40.1 \
+envinject:2.1.6 \
 envinject-api:1.5 \
 extended-choice-parameter:0.76 \
 external-monitor-job:1.7 \
 favorite:2.3.2 \
 file-operations:1.7 \
 git:3.9.1 \
-git-client:2.7.2 \
+git-client:2.7.3 \
 git-server:1.7 \
-github:1.29.2 \
+github:1.29.3 \
 github-api:1.92 \
-github-branch-source:2.3.6 \
+github-branch-source:2.4.1 \
 github-oauth:0.29 \
 groovy:2.0 \
 handlebars:1.1.1 \
 handy-uri-templates-2-api:2.1.6-1.0 \
-htmlpublisher:1.16 \
+htmlpublisher:1.17 \
 icon-shim:2.0.3 \
 jackson2-api:2.8.11.3 \
 javadoc:1.4 \
 jdk-tool:1.1 \
 jenkins-design-language:1.9.0 \
 jira:3.0.3 \
-job-dsl:1.69 \
+job-dsl:1.70 \
 jquery:1.12.4-0 \
 jquery-detached:1.2.1 \
 jsch:0.1.54.2 \
-junit:1.24 \
+junit:1.26.1 \
 ldap:1.20 \
-lockable-resources:2.2 \
+lockable-resources:2.3 \
 mailer:1.21 \
-matrix-auth:2.2 \
+matrix-auth:2.3 \
 matrix-project:1.13 \
 maven-plugin:3.1.2 \
-mercurial:2.3 \
+mercurial:2.4 \
 momentjs:1.1.1 \
 node-iterator-api:1.5.0 \
-pam-auth:1.3 \
+pam-auth:1.4 \
 pipeline-build-step:2.7 \
 pipeline-graph-analysis:1.7 \
 pipeline-input-step:2.8 \
@@ -215,7 +215,7 @@ pipeline-model-api:1.3.2 \
 pipeline-model-declarative-agent:1.1.1 \
 pipeline-model-definition:1.3.2 \
 pipeline-model-extensions:1.3.2 \
-pipeline-multibranch-defaults:1.1 \
+pipeline-multibranch-defaults:2.0 \
 pipeline-rest-api:2.10 \
 pipeline-stage-step:2.3 \
 pipeline-stage-tags-metadata:1.3.2 \
@@ -223,32 +223,32 @@ pipeline-stage-view:2.10 \
 plain-credentials:1.4 \
 pubsub-light:1.12 \
 purge-build-queue-plugin:1.0 \
-resource-disposer:0.10 \
-role-strategy:2.8.1 \
-scm-api:2.2.7 \
-script-security:1.44 \
+resource-disposer:0.12 \
+role-strategy:2.9.0 \
+scm-api:2.2.8 \
+script-security:1.46 \
 slack:2.3 \
 slave-setup:1.10 \
 sse-gateway:1.16 \
 ssh-credentials:1.14 \
-ssh-slaves:1.26 \
-structs:1.14 \
+ssh-slaves:1.28.1 \
+structs:1.17 \
 timestamper:1.8.10 \
 token-macro:2.5 \
 variant:1.1 \
 windows-slaves:1.3.1 \
-workflow-aggregator:2.5 \
+workflow-aggregator:2.6 \
 workflow-api:2.30 \
-workflow-basic-steps:2.8 \
-workflow-cps:2.54 \
-workflow-cps-global-lib:2.9 \
+workflow-basic-steps:2.11 \
+workflow-cps:2.58 \
+workflow-cps-global-lib:2.12 \
 workflow-durable-task-step:2.22 \
 workflow-job:2.26 \
 workflow-multibranch:2.20 \
-workflow-scm-step:2.6 \
+workflow-scm-step:2.7 \
 workflow-step-api:2.16 \
 workflow-support:2.21 \
-ws-cleanup:0.34 
+ws-cleanup:0.35
 
 # Default java options for running jenkins
 ENV JAVA_OPTS -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/London -Duser.timezone=Europe/London -Duser.country=GB -Dhudson.model.DirectoryBrowserSupport.CSP=\"sandbox allow-scripts allow-same-origin;\"
