@@ -164,11 +164,11 @@ credentials:2.1.18 \
 credentials-binding:1.16 \
 custom-tools-plugin:0.5 \
 display-url-api:2.2.0 \
-docker-build-step:2.0 \
+docker-build-step:2.1 \
 docker-commons:1.13 \
 docker-workflow:1.17 \
 durable-task:1.26 \
-ec2:1.40.1 \
+ec2:1.41 \
 envinject:2.1.6 \
 envinject-api:1.5 \
 extended-choice-parameter:0.76 \
@@ -199,7 +199,7 @@ jsch:0.1.54.2 \
 junit:1.26.1 \
 ldap:1.20 \
 lockable-resources:2.3 \
-mailer:1.21 \
+mailer:1.22 \
 matrix-auth:2.3 \
 matrix-project:1.13 \
 maven-plugin:3.1.2 \
@@ -225,8 +225,8 @@ pubsub-light:1.12 \
 purge-build-queue-plugin:1.0 \
 resource-disposer:0.12 \
 role-strategy:2.9.0 \
-scm-api:2.2.8 \
-script-security:1.46 \
+scm-api:2.3.0 \
+script-security:1.47 \
 slack:2.3 \
 slave-setup:1.10 \
 sse-gateway:1.16 \
@@ -240,15 +240,15 @@ windows-slaves:1.3.1 \
 workflow-aggregator:2.6 \
 workflow-api:2.30 \
 workflow-basic-steps:2.11 \
-workflow-cps:2.58 \
+workflow-cps:2.59 \
 workflow-cps-global-lib:2.12 \
-workflow-durable-task-step:2.22 \
-workflow-job:2.26 \
+workflow-durable-task-step:2.25 \
+workflow-job:2.25 \
 workflow-multibranch:2.20 \
 workflow-scm-step:2.7 \
 workflow-step-api:2.16 \
 workflow-support:2.21 \
-ws-cleanup:0.35
+ws-cleanup:0.36
 
 # Default java options for running jenkins
 ENV JAVA_OPTS -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/London -Duser.timezone=Europe/London -Duser.country=GB -Dhudson.model.DirectoryBrowserSupport.CSP=\"sandbox allow-scripts allow-same-origin;\"
