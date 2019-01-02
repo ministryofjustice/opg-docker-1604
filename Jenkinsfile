@@ -61,6 +61,7 @@ pipeline {
         stage('opg-base-1604'){ steps { script { make_command() }}}
         stage('opg-elasticsearch-shared-data-1604'){ steps { script { make_command() }}}
         stage('opg-golang-alpine') { steps { script { make_command() }}}
+        stage('opg-elasticstrim') { steps { script { make_command() }}}
       }
     }
 
