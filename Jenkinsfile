@@ -1,8 +1,8 @@
 def make_command() {
   dir(STAGE_NAME){
     sh """
-      #!/bin/bash +x
-      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
+      #!/bin/bash +xu
+      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.1
       . ../functions.sh
       build
       test
@@ -12,7 +12,7 @@ def make_command() {
 }
 
 pipeline {
-  agent { label "!master" }
+  agent { label "opg_sirius_slave" }
 
   environment { CI = "true" }
 
@@ -23,7 +23,7 @@ pipeline {
           steps {
             sh """
               #!/bin/bash +x
-              . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.0
+              . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.1
               gem install inspec -q --no-document
             """
           }

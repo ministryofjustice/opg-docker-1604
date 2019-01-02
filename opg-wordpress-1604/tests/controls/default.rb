@@ -18,6 +18,15 @@ control 'Commands' do
   end
 
   impact 1
+  title 'Wordpress can be embedded'
+  desc 'Ensure Wordpress can be embedded by not including X-Frame-Options'
+  describe command('grep -irL X-Frame-Options /etc/nginx/conf.d/app.conf') do
+    its('exit_status') { should eq 1 }
+    its('stdout') { should match %r{/etc/nginx/conf.d/app.conf} }
+
+  end
+
+  impact 1
   title 'Nginx Configured'
   desc 'Nginx should be configured correctly'
   describe http('https://localhost/', ssl_verify: false) do
