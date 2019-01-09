@@ -67,7 +67,10 @@ server {
     # Add HTTP Strict Transport Security header - required for .service.gov.uk domains
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
     # Prevent clickjacking
-    add_header X-Frame-Options "SAMEORIGIN";
+    {{ if exists "/opg/nginx/x/frame/options/remove" }}
+    {{ else }}
+    add_header X-Frame-Options SAMEORIGIN;
+    {{ end }}
     add_header X-XSS-Protection "1; mode=block";
     add_header X-Content-Type-Options nosniff;
 
