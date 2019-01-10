@@ -34,13 +34,27 @@ RUN echo "Updating Packages" &&\
                        zip \
                        netcat \
                        netcat-traditional \
-                       iproute2 sudo &&\
+                       iproute2 \
+                       sudo &&\
     echo "Installing log aggregation and AWSCLI" &&\
     pip install -U pip==9.0.3 &&\
     pip install -q awscli Beaver==${BEAVER_VERSION} &&\
     mkdir -p /etc/beaver.d &&\
     chmod a+x /etc/sv/beaver/run  && ln -s /etc/sv/beaver  /etc/service/   &&\
-    chmod a+x /etc/sv/dnsmasq/run && ln -s /etc/sv/dnsmasq /etc/service/
+    chmod a+x /etc/sv/dnsmasq/run && ln -s /etc/sv/dnsmasq /etc/service/ &&\
+
+    # psql command is already at 9.5 by default with phusion base image, this upgrades it to 9.6
+    add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" &&\
+    wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&\
+    apt-get update -y &&\
+    apt-get install -y postgresql-client-9.6 &&\
+    # This is a check to make sure postgres - it will exit(1) if this isn't the case
+    psql --version | grep 9.6 &&\
+
+    # IMPORTANT - LAYER CLEANUP
+    apt-get clean && rm -rf /tmp/* /var/tmp/* && rm -rf /var/lib/apt/lists/*
+
+
 
 RUN echo "Installing ConfD" &&\
     curl -o /usr/bin/confd -SL "https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" &&\
