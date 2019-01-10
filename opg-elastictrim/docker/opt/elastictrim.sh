@@ -8,8 +8,18 @@ fi
 es_address=localhost
 bucket_name="sirius-elastic-backup-${OPG_ENV}"
 archive_days_limit=${ELASTICTRIM_DAYS_OLD:-70}
-nobackup=true
-nodelete=true
+
+# Default to safe value
+case "${ELASTICTRIM_NOBACKUP,,}" in
+ false) nobackup=false ;;
+ *) nobackup=true ;;
+esac
+
+# Default to safe value of no deletes is true
+case "${ELASTICTRIM_NODELETE,,}" in
+ false) nodelete=false ;;
+ *) nodelete=true ;;
+esac
 
 echo "Running with configuration
        OPG_ENV:     $OPG_ENV
