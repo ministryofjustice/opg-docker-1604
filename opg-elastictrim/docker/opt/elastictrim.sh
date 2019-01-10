@@ -7,7 +7,7 @@ fi
 
 es_address=localhost
 bucket_name="sirius-elastic-backup-${OPG_ENV}"
-archive_days_limit=${ELASTICTRIM_DAYS_OLD:-12}
+archive_days_limit=${ELASTICTRIM_DAYS_OLD:-70}
 nobackup=true
 nodelete=true
 
