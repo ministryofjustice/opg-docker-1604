@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eo pipefail
+
 if [[ -z "${OPG_ENV}" ]]; then
   echo "OPG_ENV environment variable not defined. Exiting."  
   exit
