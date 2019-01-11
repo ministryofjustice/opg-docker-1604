@@ -48,7 +48,7 @@ while read -r index; do
             echo "  NOOP mode. Not Backing $index_name to s3://$bucket_name"
         else
             echo "  Backing up $index_name to s3://$bucket_name"
-            docker run --network="host" --rm taskrabbit/elasticsearch-dump --input=http://$es_address:9200/"$index_name" --s3Bucket=$bucket_name --s3RecordKey="$index_name" --noRefresh --limit 10000
+            docker run --network="host" --rm taskrabbit/elasticsearch-dump --input=http://$es_address:9200/"$index_name" --s3Bucket=$bucket_name --s3RecordKey="$index_name" --noRefresh --limit 1000
         fi
         
         # Remove the index.
