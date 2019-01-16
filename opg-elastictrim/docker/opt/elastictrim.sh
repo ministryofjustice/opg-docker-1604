@@ -50,7 +50,17 @@ while read -r index; do
             echo "  NOOP mode. Not Backing $index_name to s3://$bucket_name"
         else
             echo "  Backing up $index_name to s3://$bucket_name"
-            docker run --network="host" --rm taskrabbit/elasticsearch-dump --input=http://$es_address:9200/"$index_name" --s3Bucket=$bucket_name --s3RecordKey="$index_name" --noRefresh --limit 1000
+            mkdir -p /data/esdump
+            docker run \
+              --network="host" \
+              --rm \
+              -v /data/esdump:/outputfiles \
+              taskrabbit/elasticsearch-dump \
+                --input=http://$es_address:9200/"$index_name" \
+                --output=/outputfiles/"$index_name" \
+                --noRefresh \
+                --limit 1000
+            aws s3 mv /outputfiles/"$index_name" s3://"$bucket_name"/"$index_name"
         fi
         
         # Remove the index.
@@ -69,7 +79,7 @@ while read -r index; do
         # Small indexes could be sign of failure.    
         s3_index_file_size="$( echo $s3_index_file | cut -d ' ' -f 3)"
         echo "  s3://$bucket_name/$index_name File size: $s3_index_file_size"
-        if [ $s3_index_file_size -lt 100000 ]
+        if [ "$s3_index_file_size" -lt 100000 ]
         then
             echo "  s3://$bucket_name/$index_name is too small. Skipping indended delete."
             continue
@@ -79,7 +89,7 @@ while read -r index; do
             echo "  NOOP mode. Not Removing index $index_name"
         else
             echo "  Removing index $index_name"
-            curl -X DELETE http://$es_address:9200/$index_name
+            curl -X DELETE http://$es_address:9200/"$index_name"
         fi
             
     else
