@@ -13,7 +13,7 @@ build:
 test:
 	echo "Seed: ${SEED}"
 	docker-compose -p "${SEED}" -f tests/docker-compose.yml up -d
-	inspec exec tests -t docker://${SEED}_basegen_1
+	inspec exec tests -t docker://${SEED}_basegen_1 || docker-compose -p "${SEED}" -f tests/docker-compose.yml down
 	docker-compose -p "${SEED}" -f tests/docker-compose.yml down
 
 clean:
