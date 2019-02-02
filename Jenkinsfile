@@ -2,7 +2,7 @@ def make_command() {
   dir(STAGE_NAME){
     sh """
       #!/bin/bash +xu
-      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.1
+      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
       . ../functions.sh
       build
       test
@@ -23,7 +23,7 @@ pipeline {
           steps {
             sh """
               #!/bin/bash +x
-              . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.1
+              . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
               gem install inspec -q --no-document
             """
           }
@@ -91,7 +91,6 @@ pipeline {
     stage('PHP-FPM Dependent'){
       parallel{
         stage('opg-phpunit-1604') { steps { script { make_command() }}}
-        stage('opg-phpcs-1604')   { steps { script { make_command() }}}
         stage('opg-wordpress-1604')   { steps { script { make_command() }}}
       }
     }
