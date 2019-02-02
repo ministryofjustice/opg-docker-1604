@@ -1,9 +1,4 @@
 .PHONY: build
 
-registryUrl ?= registry.service.opg.digital
-
-image = opg-jenkins2-1604
-
 build:
-	docker build --pull $(no-cache) -t "$(registryUrl)/$(image)" .
-	# docker tag "$(registryUrl)/$(image)" "$(registryUrl)/$(image):$(newtag)"
+	docker build --pull -t "registry.service.opg.digital/opg-jenkins2-1604" .
