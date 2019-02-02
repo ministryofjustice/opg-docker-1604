@@ -2,7 +2,7 @@ def make_command() {
   dir(STAGE_NAME){
     sh """
       #!/bin/bash +xu
-      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.1
+      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
       . ../functions.sh
       build
       test
@@ -23,7 +23,7 @@ pipeline {
           steps {
             sh """
               #!/bin/bash +x
-              . /usr/local/share/chruby/chruby.sh;chruby ruby-2.5.1
+              . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
               gem install inspec -q --no-document
             """
           }
