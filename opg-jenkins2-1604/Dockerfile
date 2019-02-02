@@ -110,23 +110,23 @@ RUN /usr/local/bin/install-plugins.sh \
   authentication-tokens:1.3 \
   aws-credentials:1.24 \
   aws-java-sdk:1.11.457 \
-  blueocean:1.9.0 \
+  blueocean:1.10.2 \
   blueocean-autofavorite:1.2.3 \
-  blueocean-bitbucket-pipeline:1.9.0 \
+  blueocean-bitbucket-pipeline:1.10.2 \
   blueocean-commons:1.10.2 \
   blueocean-config:1.10.2 \
   blueocean-core-js:1.10.2 \
   blueocean-dashboard:1.10.2 \
   blueocean-display-url:2.2.0 \
-  blueocean-events:1.9.0 \
-  blueocean-git-pipeline:1.9.0 \
-  blueocean-github-pipeline:1.9.0 \
+  blueocean-events:1.10.2 \
+  blueocean-git-pipeline:1.10.2 \
+  blueocean-github-pipeline:1.10.2 \
   blueocean-i18n:1.10.2 \
   blueocean-jira:1.10.2 \
   blueocean-jwt:1.10.2 \
   blueocean-personalization:1.10.2 \
-  blueocean-pipeline-api-impl:1.9.0 \
-  blueocean-pipeline-editor:1.9.0 \
+  blueocean-pipeline-api-impl:1.10.2 \
+  blueocean-pipeline-editor:1.10.2 \
   blueocean-pipeline-scm-api:1.10.2 \
   blueocean-rest:1.10.2 \
   blueocean-rest-impl:1.10.2 \
@@ -162,7 +162,7 @@ RUN /usr/local/bin/install-plugins.sh \
   github:1.29.3 \
   github-api:1.95 \
   github-branch-source:2.4.2 \
-  github-oauth:0.29 \
+  github-oauth:0.31 \
   groovy:2.1 \
   handlebars:1.1.1 \
   handy-uri-templates-2-api:2.1.6-1.0 \
@@ -194,8 +194,8 @@ RUN /usr/local/bin/install-plugins.sh \
   pipeline-milestone-step:1.3.1 \
   pipeline-model-api:1.3.4.1 \
   pipeline-model-declarative-agent:1.1.1 \
-  pipeline-model-definition:1.3.2 \
-  pipeline-model-extensions:1.3.2 \
+  pipeline-model-definition:1.3.4.1 \
+  pipeline-model-extensions:1.3.4.1 \
   pipeline-multibranch-defaults:2.0 \
   pipeline-rest-api:2.10 \
   pipeline-stage-step:2.3 \
@@ -222,13 +222,13 @@ RUN /usr/local/bin/install-plugins.sh \
   workflow-aggregator:2.6 \
   workflow-api:2.33 \
   workflow-basic-steps:2.14 \
-  workflow-cps:2.62 \
+  workflow-cps:2.63 \
   workflow-cps-global-lib:2.13 \
   workflow-durable-task-step:2.28 \
-  workflow-job:2.25 \
+  workflow-job:2.31 \
   workflow-multibranch:2.20 \
   workflow-scm-step:2.7 \
   workflow-step-api:2.19 \
-  workflow-support:2.22 \
+  workflow-support:3.2 \
   ws-cleanup:0.37
 USER "root"
