@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -5,4 +6,4 @@ services:
     build: ..
     image: registry.service.opg.digital/opg-nginx-1604
     environment:
-      - OPG_NGINX_SERVER_NAMES=appservername
+      OPG_NGINX_SERVER_NAMES: appservername
