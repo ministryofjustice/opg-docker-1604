@@ -1,12 +1,12 @@
 # opg-nginx-1604
 
-as abstract as possible nginx setup. there is a default catchall which will return status 
+as abstract as possible nginx setup. there is a default catchall which will return status
 444 if no matching host header is found.
 
 By default the server only listens on port 443 (ssl), however one can open port 80 by setting the `OPG_NGINX_SSL_FORCE_REDIRECT` varialbe to `true`
 
-env vars
---------
+## env vars
+
 - OPG_NGINX_SSL_FORCE_REDIRECT - if set then container will redirect all `http` traffic to `https`
 - OPG_NGINX_INDEX - set a custom index document, defaults to 'index.html' if unset
 - OPG_NGINX_ROOT - set a custom root path, defaults to '/app/public' if unset
