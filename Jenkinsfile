@@ -22,8 +22,9 @@ pipeline {
       parallel {
         stage('Inspec Gem'){
           steps {
-            sh """
+            sh """\
               #!/bin/bash
+              set +ux
               . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
               gem install inspec -q --no-document
             """
@@ -33,6 +34,7 @@ pipeline {
           steps {
             sh '''
               #!/bin/bash
+              set +ux
               virtualenv venv
               . venv/bin/activate
               pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
@@ -50,6 +52,7 @@ pipeline {
       steps {
         sh '''
         #!/bin/bash
+        set +ux
         . ./functions.sh
         tag
         read_tag
