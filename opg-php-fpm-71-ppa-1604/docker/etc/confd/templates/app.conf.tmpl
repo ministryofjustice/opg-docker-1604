@@ -24,8 +24,8 @@ server {
     ssl_ciphers HIGH:!aNULL:!MD5;
     {{ end }}
     rewrite_log  on;
-    access_log  /var/log/app/nginx.access.json logstash_json;
-    error_log   /var/log/app/nginx.error.log error;
+    access_log syslog:server=unix:/dev/log,tag=nginx_access logstash_json;
+    error_log syslog:server=unix:/dev/log,tag=nginx_error error;
 
 
 # Defaults to /app/public if OPG_NGINX_ROOT isn't set
