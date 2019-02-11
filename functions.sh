@@ -49,7 +49,7 @@ tag_and_push_image() {
   local NAME=${1:?}
 
   TAG=$(read_tag)
-  echo "\nTag: ${TAG:?}"
+  echo "Tag: ${TAG:?}"
   push_image "${NAME}" "${TAG:?}"
 }
 
@@ -83,7 +83,7 @@ push_image() {
   # We Docker always builds with a tag of latest
   docker tag "${REGISTRY:?}/${IMAGE_NAME}:latest" "${REGISTRY:?}/${IMAGE_NAME}:${TAG}"
 
-  printf "\\n\\n--- Pushing Image to Docker ---\\n"
+  printf "\\n\\n--- Pushing Image to Docker Registry ---\\n"
   docker_push "${REGISTRY:?}/${IMAGE_NAME}" "${TAG}"
 
   if [[ "${BRANCH_NAME}" == "master" ]];then
