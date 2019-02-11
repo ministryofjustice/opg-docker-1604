@@ -1,8 +1,8 @@
-name: OPG Nginx
-title: OPG Nginx
+name: OPG PHP-FPM
+title: OPG PHP-FPM
 maintainer: OPG WebOps
-copyright: Copyright (c) 2018 Crown Copyright (Ministry of Justice)
+copyright: Copyright (c) 2019 Crown Copyright (Ministry of Justice)
 copyright_email: opgteam@digital.justice.gov.uk
 license: MIT
-summary: An InSpec Compliance Profile Nginx
-version: 0.1.0
+summary: An InSpec Compliance Profile PHP-FPM
+version: 0.2.0
