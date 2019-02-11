@@ -1,7 +1,7 @@
 def make_command() {
   dir(STAGE_NAME){
     sh """
-      #!/bin/bash +xu
+      #!/bin/bash +u
       . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
       . ../functions.sh
       build
@@ -22,7 +22,7 @@ pipeline {
         stage('Inspec Gem'){
           steps {
             sh """
-              #!/bin/bash +x
+              #!/bin/bash
               . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
               gem install inspec -q --no-document
             """
@@ -31,7 +31,7 @@ pipeline {
         stage('SemverTag'){
           steps {
             sh '''
-              #!/bin/bash +x
+              #!/bin/bash
               virtualenv venv
               . venv/bin/activate
               pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
@@ -48,7 +48,7 @@ pipeline {
     stage('Repository Tag') {
       steps {
         sh '''
-        #!/bin/bash +x
+        #!/bin/bash
         . ./functions.sh
         tag
         read_tag
