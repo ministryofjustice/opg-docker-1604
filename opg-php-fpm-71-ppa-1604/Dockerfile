@@ -53,7 +53,7 @@ RUN echo "Adding PHP7.1 PPA" \
   && ln -s /etc/sv/php-fpm /etc/service/ \
   && echo "Installing Composer" \
   && chmod a+x /tmp/install-composer.sh \
-  && source /tmp/install-composer.sh \
+  && . /tmp/install-composer.sh \
   && echo "Clean-up" \
   && rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
 
