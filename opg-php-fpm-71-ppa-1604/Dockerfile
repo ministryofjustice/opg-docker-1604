@@ -17,11 +17,11 @@ ENV STATSD_HOST="monitoring" \
     OPG_PHP_POOL_UPLOAD_MAX_FILESIZE="64M" \
     OPG_PHP_POOL_MAX_INPUT_VARS="1000"
 
-RUN echo "Adding PHP7.1 PPA" &&\
-    chmod 1777 /tmp/ &&\
-    add-apt-repository -y ppa:ondrej/php &&\
-    apt-get update -y &&\
-    apt-get install -y sudo \
+RUN echo "Adding PHP7.1 PPA" \
+    && chmod 1777 /tmp/ \
+    && add-apt-repository -y ppa:ondrej/php \
+    && apt-get update -y \
+    && apt-get install -y sudo \
     python-software-properties \
     mongodb-clients \
     postgresql-client \
@@ -43,7 +43,7 @@ RUN echo "Adding PHP7.1 PPA" &&\
     chmod a+x /etc/my_init.d/* &&\
     mkdir -p /data/session
 
-RUN echo "Reconfiguring XDebug" &&\
+    echo "Reconfiguring XDebug" &&\
     phpdismod -v 7.1 xdebug &&\
     echo "xdebug.remote_enable=on\nxdebug.remote_port=9000\nxdebug.remote_host=10.254.254.254" \
     >> /etc/php/7.1/mods-available/xdebug.ini &&\
