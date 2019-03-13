@@ -1,7 +1,7 @@
 def make_command() {
   dir(STAGE_NAME){
     sh """
-      #!/bin/bash +xu
+      #!/bin/bash +u
       . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
       . ../functions.sh
       build
