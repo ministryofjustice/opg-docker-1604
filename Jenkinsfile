@@ -1,9 +1,9 @@
 def make_command() {
   dir(STAGE_NAME){
     sh """
-      #!/bin/bash +xu
-      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
-      . ../functions.sh
+      #!/bin/bash +u
+      source /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
+      source ../functions.sh
       build
       test
       tag_and_push_image ${STAGE_NAME}
