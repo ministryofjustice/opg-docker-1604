@@ -22,21 +22,21 @@ RUN echo "Adding PHP7.1 PPA" &&\
     add-apt-repository -y ppa:ondrej/php &&\
     apt-get update -y &&\
     apt-get install -y sudo \
-                       python-software-properties \
-                       mongodb-clients \
-                       postgresql-client \
-                       php-xdebug \
-                       php7.1 \
-                       php7.1-cli \
-                       php7.1-curl \
-                       php7.1-fpm \
-                       php7.1-imagick \
-                       php7.1-intl \
-                       php7.1-mbstring \
-                       php7.1-mcrypt \
-                       php7.1-mongo \
-                       php7.1-pgsql \
-                       php7.1-xml &&\
+    python-software-properties \
+    mongodb-clients \
+    postgresql-client \
+    php-xdebug \
+    php7.1 \
+    php7.1-cli \
+    php7.1-curl \
+    php7.1-fpm \
+    php7.1-imagick \
+    php7.1-intl \
+    php7.1-mbstring \
+    php7.1-mcrypt \
+    php7.1-mongo \
+    php7.1-pgsql \
+    php7.1-xml &&\
     apt-get clean && apt-get -y autoremove &&\
     update-alternatives --set php /usr/bin/php7.1 &&\
     echo "Making sure scripts are executable" &&\
@@ -46,7 +46,7 @@ RUN echo "Adding PHP7.1 PPA" &&\
 RUN echo "Reconfiguring XDebug" &&\
     phpdismod -v 7.1 xdebug &&\
     echo "xdebug.remote_enable=on\nxdebug.remote_port=9000\nxdebug.remote_host=10.254.254.254" \
-         >> /etc/php/7.1/mods-available/xdebug.ini &&\
+    >> /etc/php/7.1/mods-available/xdebug.ini &&\
     echo "Replacing php-fpm configuration" &&\
     rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php &&\
     chmod a+x /etc/sv/php-fpm/run &&\
@@ -56,3 +56,5 @@ RUN echo "Reconfiguring XDebug" &&\
     . /tmp/install-composer.sh &&\
     echo "Clean-up" &&\
     rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
+
+EXPOSE 9000
