@@ -1,9 +1,9 @@
 def make_command() {
   dir(STAGE_NAME){
     sh """
-      #!/bin/bash +xu
-      . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
-      . ../functions.sh
+      #!/bin/bash +u
+      source /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
+      source ../functions.sh
       build
       test
       tag_and_push_image ${STAGE_NAME}
@@ -22,8 +22,8 @@ pipeline {
         stage('Inspec Gem'){
           steps {
             sh """
-              #!/bin/bash +x
-              . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
+              #!/bin/bash
+              source /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
               gem install inspec -q --no-document
             """
           }
@@ -31,9 +31,9 @@ pipeline {
         stage('SemverTag'){
           steps {
             sh '''
-              #!/bin/bash +x
+              #!/bin/bash
               virtualenv venv
-              . venv/bin/activate
+              source venv/bin/activate
               pip install git+https://github.com/ministryofjustice/semvertag.git@1.1.0
               git fetch --tags # Fetch once for subsiquent stages
               # Setup Jenkins SSH User
@@ -48,10 +48,10 @@ pipeline {
     stage('Repository Tag') {
       steps {
         sh '''
-        #!/bin/bash +x
-        . ./functions.sh
-        tag
-        read_tag
+          #!/bin/bash
+          source ./functions.sh
+          tag
+          read_tag
         '''
       }
     }
