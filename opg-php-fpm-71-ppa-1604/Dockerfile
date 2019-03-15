@@ -22,7 +22,7 @@ RUN echo "Adding PHP7.1 PPA" \
   && add-apt-repository -y ppa:ondrej/php \
   && apt-get update -y \
   && apt-get install -y \
-  python-software-properties \
+  sudo python-software-properties \
   mongodb-clients \
   postgresql-client \
   php-xdebug \
