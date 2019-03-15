@@ -18,30 +18,31 @@ ENV STATSD_HOST="monitoring" \
     OPG_PHP_POOL_MAX_INPUT_VARS="1000"
 
 RUN echo "Adding PHP7.1 PPA" \
-    && chmod 1777 /tmp/ \
-    && add-apt-repository -y ppa:ondrej/php \
-    && apt-get update -y \
-    && apt-get install -y sudo \
-       php-xdebug \
-       php7.1 \
-    && apt-get clean \
-    && apt-get -y autoremove \
-    && update-alternatives --set php /usr/bin/php7.1 \
-    && echo "Making sure scripts are executable" \
-    && chmod a+x /etc/my_init.d/* \
-    && mkdir -p /data/session \
-    && echo "Reconfiguring XDebug" \
-    && phpdismod -v 7.1 xdebug \
-    && echo "xdebug.remote_enable=on\nxdebug.remote_port=9000\nxdebug.remote_host=10.254.254.254" \
-       >> /etc/php/7.1/mods-available/xdebug.ini \
-    && echo "Replacing php-fpm configuration" \
-    && rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php \
-    && chmod a+x /etc/sv/php-fpm/run \
-    && ln -s /etc/sv/php-fpm /etc/service/ \
-    && echo "Installing Composer" \
-    && chmod a+x /tmp/install-composer.sh \
-    && source /tmp/install-composer.sh \
-    && echo "Clean-up" \
-    && rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
+&& chmod 1777 /tmp/\
+&& add-apt-repository -y ppa:ondrej/php\
+&& apt-get update -y\
+&& apt-get install -y
+ sudo\
+ php-xdebug\
+ php7.1\
+&& apt-get clean\
+&& apt-get -y autoremove\
+&& update-alternatives --set php /usr/bin/php7.1\
+&& echo "Making sure scripts are executable"\
+&& chmod a+x /etc/my_init.d/*\
+&& mkdir -p /data/session\
+&& echo "Reconfiguring XDebug"\
+&& phpdismod -v 7.1 xdebug\
+&& echo "xdebug.remote_enable=on\nxdebug.remote_port=9000\nxdebug.remote_host=10.254.254.254"\
+   >> /etc/php/7.1/mods-available/xdebug.ini\
+&& echo "Replacing php-fpm configuration"\
+&& rm -f /etc/php/7.1/fpm/php-fpm.conf /etc/php/7.1fpm/pool.d/www.conf /etc/cron.d/php\
+&& chmod a+x /etc/sv/php-fpm/run\
+&& ln -s /etc/sv/php-fpm /etc/service/\
+&& echo "Installing Composer"\
+&& chmod a+x /tmp/install-composer.sh\
+&& . /tmp/install-composer.sh\
+&& echo "Clean-up"\
+&& rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
 
 EXPOSE 9000
