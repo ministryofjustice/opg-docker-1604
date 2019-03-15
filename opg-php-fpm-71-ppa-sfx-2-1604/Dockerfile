@@ -22,21 +22,8 @@ RUN echo "Adding PHP7.1 PPA" &&\
     add-apt-repository -y ppa:ondrej/php &&\
     apt-get update -y &&\
     apt-get install -y sudo \
-                       python-software-properties \
-                       mongodb-clients \
-                       postgresql-client \
                        php-xdebug \
-                       php7.1 \
-                       php7.1-cli \
-                       php7.1-curl \
-                       php7.1-fpm \
-                       php7.1-imagick \
-                       php7.1-intl \
-                       php7.1-mbstring \
-                       php7.1-mcrypt \
-                       php7.1-mongo \
-                       php7.1-pgsql \
-                       php7.1-xml &&\
+                       php7.1 &&\
     apt-get clean && apt-get -y autoremove &&\
     update-alternatives --set php /usr/bin/php7.1 &&\
     echo "Making sure scripts are executable" &&\
