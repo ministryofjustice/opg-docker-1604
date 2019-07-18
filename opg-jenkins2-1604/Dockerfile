@@ -39,8 +39,8 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
 ENV JENKINS_HOME="/srv/jenkins" \
   JENKINS_UC="https://updates.jenkins.io" \
   JENKINS_SLAVE_AGENT_PORT="50000"\
-  JENKINS_VERSION="2.150.2" \
-  JENKINS_SHA="fab70f4e209855e0806315cc419e0cbbbf1bd9b31c6f221f7702aa21145040f8"
+  JENKINS_VERSION="2.176.2" \
+  JENKINS_SHA="33a6c3161cf8de9c8729fd83914d781319fd1569acf487c7b1121681dba190a5"
 ENV JENKINS_URL="https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war" \
   COPY_REFERENCE_FILE_LOG="${JENKINS_HOME}/copy_reference_file.log" \
   JAVA_OPTS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/London -Duser.timezone=Europe/London -Duser.country=GB -Dhudson.model.DirectoryBrowserSupport.CSP=\"sandbox allow-same-origin allow-scripts; default-src 'unsafe-inline'; script-src * 'unsafe-inline'; img-src *; style-src * 'unsafe-inline'; font-src *\""
