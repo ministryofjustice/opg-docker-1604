@@ -1,8 +1,0 @@
-[template]
-src = "10.sys.tmpl"
-dest = "/etc/backup.d/10.sys"
-keys = [
-    "/backupninja",
-]
-owner = "root"
-mode = "0600"
