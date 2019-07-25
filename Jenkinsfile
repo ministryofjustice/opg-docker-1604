@@ -79,12 +79,13 @@ pipeline {
 
     stage('Nginx or JRE Dependent'){
       parallel {
-        stage('opg-php-fpm-71-ppa-1604') { steps { script { make_command() }}}
-        stage('opg-php-fpm-1604')        { steps { script { make_command() }}}
-        stage('opg-nginx-router-1604')   { steps { script { make_command() }}}
-        stage('opg-elasticsearch5-1604') { steps { script { make_command() }}}
-        stage('opg-jenkins2-1604')       { steps { script { make_command() }}}
-        stage('opg-jenkins-slave-1604')  { steps { script { make_command() }}}
+        stage('opg-php-fpm-71-ppa-1604')       { steps { script { make_command() }}}
+        stage('opg-php-fpm-71-ppa-sfx-2-1604') { steps { script { make_command() }}}
+        stage('opg-php-fpm-1604')              { steps { script { make_command() }}}
+        stage('opg-nginx-router-1604')         { steps { script { make_command() }}}
+        stage('opg-elasticsearch5-1604')       { steps { script { make_command() }}}
+        stage('opg-jenkins2-1604')             { steps { script { make_command() }}}
+        stage('opg-jenkins-slave-1604')        { steps { script { make_command() }}}
       }
     }
 
