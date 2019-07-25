@@ -26,7 +26,7 @@ pipeline {
               #!/bin/bash
               set +ux
               . /usr/local/share/chruby/chruby.sh;chruby ruby-2.6.0
-              gem install inspec -q --no-document
+              gem install inspec -q --no-document 
             """
           }
         }
