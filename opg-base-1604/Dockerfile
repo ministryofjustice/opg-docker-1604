@@ -24,18 +24,18 @@ RUN locale-gen en_GB en_GB.UTF-8 &&\
 RUN echo "Updating Packages" &&\
     apt-get update -qq &&\
     apt-get install -y dos2unix \
-                       git \
-                       python-setuptools \
-                       python \
-                       python-pip \
-                       wget \
-                       dnsmasq \
-                       unzip \
-                       zip \
-                       netcat \
-                       netcat-traditional \
-                       iproute2 \
-                       sudo &&\
+    git \
+    python-setuptools \
+    python \
+    python-pip \
+    wget \
+    dnsmasq \
+    unzip \
+    zip \
+    netcat \
+    netcat-traditional \
+    iproute2 \
+    sudo &&\
     echo "Installing log aggregation and AWSCLI" &&\
     pip install -U pip==9.0.3 &&\
     pip install -q awscli Beaver==${BEAVER_VERSION} &&\
@@ -67,4 +67,5 @@ RUN echo "Installing ConfD" &&\
     chmod 600 /var/spool/cron/crontabs/app &&\
     chown app:crontab /var/spool/cron/crontabs/app && \
     chmod a+x /etc/my_init.d/* &&\
-    chmod -R a+x /scripts/base
+    chmod -R a+x /scripts/base &&\
+    chmod 777 /tmp
