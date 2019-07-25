@@ -39,8 +39,8 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
 ENV JENKINS_HOME="/srv/jenkins" \
   JENKINS_UC="https://updates.jenkins.io" \
   JENKINS_SLAVE_AGENT_PORT="50000"\
-  JENKINS_VERSION="2.150.2" \
-  JENKINS_SHA="fab70f4e209855e0806315cc419e0cbbbf1bd9b31c6f221f7702aa21145040f8"
+  JENKINS_VERSION="2.176.2" \
+  JENKINS_SHA="33a6c3161cf8de9c8729fd83914d781319fd1569acf487c7b1121681dba190a5"
 ENV JENKINS_URL="https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war" \
   COPY_REFERENCE_FILE_LOG="${JENKINS_HOME}/copy_reference_file.log" \
   JAVA_OPTS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/London -Duser.timezone=Europe/London -Duser.country=GB -Dhudson.model.DirectoryBrowserSupport.CSP=\"sandbox allow-same-origin allow-scripts; default-src 'unsafe-inline'; script-src * 'unsafe-inline'; img-src *; style-src * 'unsafe-inline'; font-src *\""
@@ -102,133 +102,137 @@ COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 
 RUN /usr/local/bin/install-plugins.sh \
   ace-editor:1.1 \
-  analysis-core:1.95 \
-  ansicolor:0.5.3 \
+  analysis-core:1.96 \
+  ansicolor:0.6.2 \
   ant:1.9 \
   antisamy-markup-formatter:1.5 \
   apache-httpcomponents-client-4-api:4.5.5-3.0 \
   authentication-tokens:1.3 \
-  aws-credentials:1.24 \
-  aws-java-sdk:1.11.457 \
-  blueocean:1.10.2 \
-  blueocean-autofavorite:1.2.3 \
-  blueocean-bitbucket-pipeline:1.10.2 \
-  blueocean-commons:1.10.2 \
-  blueocean-config:1.10.2 \
-  blueocean-core-js:1.10.2 \
-  blueocean-dashboard:1.10.2 \
-  blueocean-display-url:2.2.0 \
-  blueocean-events:1.10.2 \
-  blueocean-git-pipeline:1.10.2 \
-  blueocean-github-pipeline:1.10.2 \
-  blueocean-i18n:1.10.2 \
-  blueocean-jira:1.10.2 \
-  blueocean-jwt:1.10.2 \
-  blueocean-personalization:1.10.2 \
-  blueocean-pipeline-api-impl:1.10.2 \
-  blueocean-pipeline-editor:1.10.2 \
-  blueocean-pipeline-scm-api:1.10.2 \
-  blueocean-rest:1.10.2 \
-  blueocean-rest-impl:1.10.2 \
-  blueocean-web:1.10.2 \
+  aws-credentials:1.27 \
+  aws-java-sdk:1.11.562 \
+  blueocean:1.17.0 \
+  blueocean-autofavorite:1.2.4 \
+  blueocean-bitbucket-pipeline:1.17.0 \
+  blueocean-commons:1.17.0 \
+  blueocean-config:1.17.0 \
+  blueocean-core-js:1.17.0 \
+  blueocean-dashboard:1.17.0 \
+  blueocean-display-url:2.3.0 \
+  blueocean-events:1.17.0 \
+  blueocean-executor-info:1.17.0 \
+  blueocean-git-pipeline:1.17.0 \
+  blueocean-github-pipeline:1.17.0 \
+  blueocean-i18n:1.17.0 \
+  blueocean-jira:1.17.0 \
+  blueocean-jwt:1.17.0 \
+  blueocean-personalization:1.17.0 \
+  blueocean-pipeline-api-impl:1.17.0 \
+  blueocean-pipeline-editor:1.17.0 \
+  blueocean-pipeline-scm-api:1.17.0 \
+  blueocean-rest:1.17.0 \
+  blueocean-rest-impl:1.17.0 \
+  blueocean-web:1.17.0 \
   bouncycastle-api:2.17 \
-  branch-api:2.1.2 \
+  branch-api:2.5.3 \
+  build-user-vars-plugin:1.5 \
   checkstyle:4.0.0 \
-  cloudbees-bitbucket-branch-source:2.4.1 \
-  cloudbees-folder:6.7 \
+  cloudbees-bitbucket-branch-source:2.4.5 \
+  cloudbees-folder:6.9 \
   clover:4.10.0 \
   command-launcher:1.3 \
-  config-file-provider:3.5 \
+  config-file-provider:3.6.2 \
   confluence-publisher:2.0.3 \
-  copyartifact:1.41 \
-  credentials:2.1.18 \
-  credentials-binding:1.17 \
+  copyartifact:1.42.1 \
+  credentials:2.2.0 \
+  credentials-binding:1.19 \
   custom-tools-plugin:0.6 \
-  display-url-api:2.3.0 \
-  docker-build-step:2.2 \
-  docker-commons:1.13 \
-  docker-workflow:1.17 \
-  durable-task:1.29 \
-  ec2:1.42 \
+  display-url-api:2.3.1 \
+  docker-build-step:2.3 \
+  docker-commons:1.15 \
+  docker-workflow:1.18 \
+  durable-task:1.30 \
+  ec2:1.44.1 \
   envinject:2.1.6 \
   envinject-api:1.5 \
-  extended-choice-parameter:0.76 \
+  extended-choice-parameter:0.78 \
   external-monitor-job:1.7 \
   favorite:2.3.2 \
   file-operations:1.7 \
   git:4.0.0-rc \
   git-client:3.0.0-rc \
   git-server:1.7 \
-  github:1.29.3 \
+  github:1.29.4 \
   github-api:1.95 \
-  github-branch-source:2.4.2 \
-  github-oauth:0.31 \
-  groovy:2.1 \
+  github-branch-source:2.5.3 \
+  github-oauth:0.32 \
+  github-pullrequest:0.2.5 \
+  groovy:2.2 \
   handlebars:1.1.1 \
-  handy-uri-templates-2-api:2.1.6-1.0 \
+  handy-uri-templates-2-api:2.1.7-1.0 \
   htmlpublisher:1.18 \
   icon-shim:2.0.3 \
-  jackson2-api:2.9.8 \
-  javadoc:1.4 \
+  jackson2-api:2.9.9.1 \
+  javadoc:1.5 \
   jdk-tool:1.2 \
-  jenkins-design-language:1.10.2 \
-  jira:3.0.5 \
-  job-dsl:1.71 \
+  jenkins-design-language:1.17.0 \
+  jira:3.0.8 \
+  job-dsl:1.74 \
   jquery:1.12.4-0 \
   jquery-detached:1.2.1 \
+  jquery-ui:1.0.2 \
   jsch:0.1.55 \
-  junit:1.26.1 \
+  junit:1.28 \
   ldap:1.20 \
-  lockable-resources:2.4 \
+  lockable-resources:2.5 \
   mailer:1.23 \
-  matrix-auth:2.3 \
-  matrix-project:1.13 \
-  maven-plugin:3.2 \
-  mercurial:2.5 \
+  matrix-auth:2.4.2 \
+  matrix-project:1.14 \
+  maven-plugin:3.3 \
+  mercurial:2.7 \
   momentjs:1.1.1 \
   node-iterator-api:1.5.0 \
-  pam-auth:1.4 \
-  pipeline-build-step:2.7 \
-  pipeline-graph-analysis:1.9 \
-  pipeline-input-step:2.9 \
+  pam-auth:1.5.1 \
+  pipeline-build-step:2.9 \
+  pipeline-graph-analysis:1.10 \
+  pipeline-input-step:2.10 \
   pipeline-milestone-step:1.3.1 \
-  pipeline-model-api:1.3.4.1 \
+  pipeline-model-api:1.3.9 \
   pipeline-model-declarative-agent:1.1.1 \
-  pipeline-model-definition:1.3.4.1 \
-  pipeline-model-extensions:1.3.4.1 \
+  pipeline-model-definition:1.3.9 \
+  pipeline-model-extensions:1.3.9 \
   pipeline-multibranch-defaults:2.0 \
-  pipeline-rest-api:2.10 \
+  pipeline-rest-api:2.11 \
   pipeline-stage-step:2.3 \
-  pipeline-stage-tags-metadata:1.3.4.1 \
-  pipeline-stage-view:2.10 \
+  pipeline-stage-tags-metadata:1.3.9 \
+  pipeline-stage-view:2.11 \
   plain-credentials:1.5 \
   pubsub-light:1.12 \
   purge-build-queue-plugin:1.0 \
   resource-disposer:0.12 \
-  role-strategy:2.9.0 \
-  scm-api:2.3.0 \
-  script-security:1.51 \
-  slack:2.15 \
+  role-strategy:2.13 \
+  scm-api:2.6.3 \
+  script-security:1.61 \
+  slack:2.27 \
   slave-setup:1.10 \
-  sse-gateway:1.17 \
+  sse-gateway:1.18 \
   ssh-agent:1.17 \
-  ssh-credentials:1.14 \
-  ssh-slaves:1.29.4 \
-  structs:1.17 \
-  timestamper:1.8.10 \
-  token-macro:2.6 \
-  variant:1.1 \
+  ssh-credentials:1.17.1 \
+  ssh-slaves:1.30.0 \
+  structs:1.19 \
+  timestamper:1.9 \
+  token-macro:2.8 \
+  variant:1.2 \
   windows-slaves:1.4 \
   workflow-aggregator:2.6 \
-  workflow-api:2.33 \
-  workflow-basic-steps:2.14 \
-  workflow-cps:2.63 \
-  workflow-cps-global-lib:2.13 \
-  workflow-durable-task-step:2.28 \
-  workflow-job:2.31 \
-  workflow-multibranch:2.20 \
-  workflow-scm-step:2.7 \
-  workflow-step-api:2.19 \
-  workflow-support:3.2 \
+  workflow-api:2.35 \
+  workflow-basic-steps:2.18 \
+  workflow-cps:2.72 \
+  workflow-cps-global-lib:2.14 \
+  workflow-durable-task-step:2.31 \
+  workflow-job:2.33 \
+  workflow-multibranch:2.21 \
+  workflow-scm-step:2.9 \
+  workflow-step-api:2.20 \
+  workflow-support:3.3 \
   ws-cleanup:0.37
 USER "root"
