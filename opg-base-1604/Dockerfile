@@ -67,5 +67,4 @@ RUN echo "Installing ConfD" &&\
     chmod 600 /var/spool/cron/crontabs/app &&\
     chown app:crontab /var/spool/cron/crontabs/app && \
     chmod a+x /etc/my_init.d/* &&\
-    chmod -R a+x /scripts/base &&\
-    chmod 777 /tmp
+    chmod -R a+x /scripts/base
