@@ -1,3 +1,0 @@
-basegen:
-  build: ..
-  command: tail -F /var/log/syslog

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-/opt/configure_db.py &

@@ -1,7 +1,0 @@
-[template]
-prefix = "/ssmtp"
-src = "main.cf.tmpl"
-dest = "/etc/postfix/main.cf"
-keys = [
-    "/domain",
- ]

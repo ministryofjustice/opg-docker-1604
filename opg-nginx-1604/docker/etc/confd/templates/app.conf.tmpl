@@ -8,7 +8,7 @@ server {
 {{   end }}
 
 server {
-    #Using global cert let's also listen on 443
+    # Using global cert let's also listen on 443
     listen     443 ssl;
     server_name {{ getv "/opg/nginx/server/names" }};
 
@@ -43,7 +43,7 @@ server {
     {{ end }}
 
 
-# Defaults to /app/public if OPG_NGINX_ROOT isn't set
+    # Defaults to /app/public if OPG_NGINX_ROOT isn't set
     {{ if exists "" }}
     set $root "{{ getv "/opg/nginx/root" }}";
     {{ else }}
@@ -55,7 +55,7 @@ server {
         alias /app/META;
     }
 
-    # i.e. deny access to .htaccess in case someone will create it
+    # i.e. deny access to .htaccess
     location ~ /\. {
         deny  all;
     }
@@ -68,7 +68,7 @@ server {
         expires           24h;
 
     }
-# Defaults to index.html if OPG_NGINX_INDEX isn't set
+    # Defaults to index.html if OPG_NGINX_INDEX isn't set
     {{ if exists "/opg/nginx/index" }}
     set $index "{{ getv "/opg/nginx/index" }}";
     {{ else }}

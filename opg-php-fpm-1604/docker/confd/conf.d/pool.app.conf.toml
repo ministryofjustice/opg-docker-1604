@@ -1,6 +1,0 @@
-[template]
-src = "pool.app.conf.tmpl"
-dest = "/etc/php/7.0/fpm/pool.d/app.conf"
-keys = [
-    "/opg/php",
-]
